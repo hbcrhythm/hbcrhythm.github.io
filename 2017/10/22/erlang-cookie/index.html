@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Erlang Cookie | New Power</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在写一个cluster_demo， 遇到一个问题，我的集群中的两个节点在windows下大概是这样启动的。 erl -name a@127.0.0.1 -setcookie aa erl -name b@127.0.0.1 -setcookie bb 因为我知道，节点间的互连要cookie一致，我们可以通过下面这个函数设置cookie erlang:set_cookie(Node, NodeC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Erlang Cookie">
+<meta property="og:url" content="https://hbcrhythm.github.io/2017/10/22/erlang-cookie/index.html">
+<meta property="og:site_name" content="New Power">
+<meta property="og:description" content="最近在写一个cluster_demo， 遇到一个问题，我的集群中的两个节点在windows下大概是这样启动的。 erl -name a@127.0.0.1 -setcookie aa erl -name b@127.0.0.1 -setcookie bb 因为我知道，节点间的互连要cookie一致，我们可以通过下面这个函数设置cookie erlang:set_cookie(Node, NodeC">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-30T16:06:04.191Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Erlang Cookie">
+<meta name="twitter:description" content="最近在写一个cluster_demo， 遇到一个问题，我的集群中的两个节点在windows下大概是这样启动的。 erl -name a@127.0.0.1 -setcookie aa erl -name b@127.0.0.1 -setcookie bb 因为我知道，节点间的互连要cookie一致，我们可以通过下面这个函数设置cookie erlang:set_cookie(Node, NodeC">
+  
+    <link rel="alternate" href="/atom.xml" title="New Power" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">New Power</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">No matter how far you may fly, never forget where you come from</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-erlang-cookie" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/22/erlang-cookie/" class="article-date">
+  <time datetime="2017-10-21T16:42:13.000Z" itemprop="datePublished">2017-10-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Erlang Cookie
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在写一个cluster_demo， 遇到一个问题，我的集群中的两个节点在windows下大概是这样启动的。</p>
+<pre><code>erl -name a@127.0.0.1 -setcookie aa
+erl -name b@127.0.0.1 -setcookie bb
+</code></pre><p>因为我知道，节点间的互连要<strong>cookie一致</strong>，我们可以通过下面这个函数设置cookie</p>
+<pre><code>erlang:set_cookie(Node, NodeCookie)
+</code></pre><p>或许大家看过官方文档和一些博客里面写的，集群节点可以不需要全部节点同一个cookie，只需要使用erlang:set_cookie去设置你想要连接节点的cookie。<br>我把这句话理解点代码是这样:</p>
+<p>在<a href="mailto:a@127.0.0.1" target="_blank" rel="noopener">a@127.0.0.1</a>节点上，我进行如下操作</p>
+<pre><code>erlang:set_cookie(&apos;b@127.0.0.1&apos;, bb)
+</code></pre><p>在<a href="mailto:b@127.0.0.1" target="_blank" rel="noopener">b@127.0.0.1</a>节点上，我进行如下操作</p>
+<pre><code>erlang:set_cookie(&apos;a@127.0.0.1&apos;, aa)
+</code></pre><p>我以为这样的话，那么我们就可以在a或者b上直接ping通对方，但是事实却不是这样，当我在 <a href="mailto:a@127.0.0.1" target="_blank" rel="noopener">a@127.0.0.1</a> 节点上执行</p>
+<pre><code>net_adm:ping(&apos;b@127.0.0.1&apos;)
+</code></pre><p>他的连接并没有成功，并且提示在<a href="mailto:b@127.0.0.1" target="_blank" rel="noopener">b@127.0.0.1</a>上给我的提示是</p>
+<pre><code>** Connection attempt from disallowed node ‘a@127.0.0.1&apos; **
+</code></pre><p>我搜索了erlang的kernel的库代码，找到了2个地方会存在这个提示，</p>
+<p>erlang kernel version: <strong>kernel-4.1.1</strong></p>
+<p>dist_util.erl 151行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">%% check if connecting node is allowed to connect with allow-node-scheme</span><br><span class="line">is_allowed(#hs_data&#123;other_node = Node, </span><br><span class="line">		    allowed = Allowed&#125; = HSData) -&gt;</span><br><span class="line">    case lists:member(Node, Allowed) of</span><br><span class="line">	false when Allowed =/= [] -&gt;</span><br><span class="line">	    send_status(HSData, not_allowed),</span><br><span class="line">	    error_msg(&quot;** Connection attempt from &quot;</span><br><span class="line">		      &quot;disallowed node ~w ** ~n&quot;, [Node]),</span><br><span class="line">	    ?shutdown(Node);</span><br><span class="line">	_ -&gt; true</span><br><span class="line">    end.</span><br></pre></td></tr></table></figure></p>
+<p>dist_util.erl 591行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">%% wait for challenge response after send_challenge</span><br><span class="line">recv_challenge_reply(#hs_data&#123;socket = Socket, </span><br><span class="line">			      other_node = NodeB,</span><br><span class="line">			      f_recv = FRecv&#125;, </span><br><span class="line">		     ChallengeA, Cookie) -&gt;</span><br><span class="line">    case FRecv(Socket, 0, infinity) of</span><br><span class="line">	&#123;ok,[$r,CB3,CB2,CB1,CB0 | SumB]&#125; when length(SumB) =:= 16 -&gt;</span><br><span class="line">	    SumA = gen_digest(ChallengeA, Cookie),</span><br><span class="line">	    ChallengeB = ?u32(CB3,CB2,CB1,CB0),</span><br><span class="line">	    ?trace(&quot;recv_reply: challenge=~w digest=~p\n&quot;,</span><br><span class="line">		   [ChallengeB,SumB]),</span><br><span class="line">	    ?trace(&quot;sum = ~p\n&quot;, [SumA]),</span><br><span class="line">	    case list_to_binary(SumB) of</span><br><span class="line">		SumA -&gt;</span><br><span class="line">		    ChallengeB;</span><br><span class="line">		_ -&gt;</span><br><span class="line">		    error_msg(&quot;** Connection attempt from &quot;</span><br><span class="line">			      &quot;disallowed node ~w ** ~n&quot;, [NodeB]),</span><br><span class="line">		    ?shutdown(NodeB)</span><br><span class="line">	    end;</span><br><span class="line">	_ -&gt;</span><br><span class="line">	    ?shutdown(no_node)</span><br><span class="line">    end.</span><br></pre></td></tr></table></figure></p>
+<p>很明显，不是151行的问题，通过设置 net_kernel:allow([]) 可以排除这个问题。<br>看代码可以发现 当SumB =/= SumA的时候就会返回这个提示，SumB是接收到的，SumA是我们计算出来的，</p>
+<pre><code>SumA = gen_digest(ChallengeA, Cookie)
+</code></pre><p>SumA是这样生成的，查看了ChallengeA的生成代码，只是进行一些算数，然后生成的一个值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">gen_challenge() -&gt;</span><br><span class="line">    A = erlang:phash2([erlang:node()]),</span><br><span class="line">    B = erlang:monotonic_time(),</span><br><span class="line">    C = erlang:unique_integer(),</span><br><span class="line">    &#123;D,_&#125;   = erlang:statistics(reductions),</span><br><span class="line">    &#123;E,_&#125;   = erlang:statistics(runtime),</span><br><span class="line">    &#123;F,_&#125;   = erlang:statistics(wall_clock),</span><br><span class="line">    &#123;G,H,_&#125; = erlang:statistics(garbage_collection),</span><br><span class="line">    %% A(8) B(16) C(16)</span><br><span class="line">    %% D(16),E(8), F(16) G(8) H(16)</span><br><span class="line">    ( ((A bsl 24) + (E bsl 16) + (G bsl 8) + F) bxor</span><br><span class="line">      (B + (C bsl 16)) bxor </span><br><span class="line">      (D + (H bsl 16)) ) band 16#ffffffff.</span><br></pre></td></tr></table></figure></p>
+<p>打印Cookie的值，发现是aa ,正式我们在<a href="mailto:b@127.0.0.1" target="_blank" rel="noopener">b@127.0.0.1</a>上设置的<a href="mailto:a@127.0.0.1" target="_blank" rel="noopener">a@127.0.0.1</a>的cookie。<br>基本上能断定出问题的就是这个cookie值了。</p>
+<p>但这里有一个情况出现，如果我们两个脚本的启动时这样的</p>
+<pre><code>erl -name  a@127.0.0.1 -setcookie aa
+erl -name  b@127.0.0.1 -setcookie aa
+</code></pre><p>我们可以直接net_adm:ping()成功对方。<br>我们查看官方文档，erlang:set_cookie()的解释</p>
+<blockquote>
+<p>Sets the magic cookie of Node to the atom Cookie. If Node is the local node, the function also sets the cookie of all other unknown nodes to Cookie (see Section Distributed Erlang in the Erlang Reference Manual in System Documentation).</p>
+</blockquote>
+<p>因为我们启动的时候setcookie ，按照官方文档的解释，其实在<a href="mailto:a@127.0.0.1" target="_blank" rel="noopener">a@127.0.0.1</a>节点上也可以说是进行了这样操作的</p>
+<pre><code>erlang:set_cookie(&apos;b@127.0.0.1&apos;， aa)
+</code></pre><p>同理，在<a href="mailto:b@127.0.0.1" target="_blank" rel="noopener">b@127.0.0.1</a>上就是</p>
+<pre><code>erlang:set_cookie(&apos;a@127.0.0.1&apos;, aa)
+</code></pre><p>这样我们可以发现，其实他们可以互连，是因为他们都设置对方的cookie为同一个值，我们做个尝试，在两个节点上分别执行下面2个操作</p>
+<pre><code>erl -name a@127.0.0.1 -setcookie aa
+erlang:set_cookie(&apos;b@127.0.0.1&apos;, cc)
+
+erl -name b@127.0.0.1 -setcookie bb
+erlang:set_cookie(&apos;a@127.0.0.1&apos;, cc)
+</code></pre><p>然后在进行net_adm:ping()发现，他们pong了。<br>我们可以得出结果，其实他们要互连，是需要双方将对方的cookie设置为同一个值。</p>
+<p>我们在去翻下 Distributed Erlang章节的文档，发现其实是有这句话的，</p>
+<blockquote>
+<p>For a node Node1 with magic cookie Cookie to be able to connect to, or accept a connection from, another node Node2 with a different cookie DiffCookie, the function erlang:set_cookie(Node2, DiffCookie) must first be called at Node1. Distributed systems with multiple user IDs can be handled in this way.</p>
+</blockquote>
+<p>仔细看，他只是说需要在Node1 上 erlang:set_cookie(Node2, DiffCookie) ，并没有说 Node2上也需要调用erlang:set_cookie()啊。。。。。。额，其实我一直以为是文档不详细。。。。。。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/10/22/erlang-cookie/" data-id="cjfe7llkg0004agvel9d0evpa" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/31/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/24/pomelo/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">pomelo</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+ 
+  <section id="comments">
+<!--高速版，加载速度快，使用前需测试页面的兼容性-->
+<div id="SOHUCS" sid="Erlang Cookie"></div>
+<script>
+  (function(){
+    var appid = 'cyt9AlIMf',
+    conf = '0f4489db1d54935417a4bdef6ad1ca32';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'https://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+    window.SCS_NO_IFRAME = true;
+  })()
+</script>    
+  </section>
+  </section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/31/nifty/">nifty</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/31/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/22/erlang-cookie/">Erlang Cookie</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/24/pomelo/">pomelo</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/16/WebIssues/">WebIssues</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baocheng Huang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

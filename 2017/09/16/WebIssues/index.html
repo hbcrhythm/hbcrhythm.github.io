@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>WebIssues | New Power</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。 系统环境：Centos6.5WebIssues版本：WebIssues1.1.5 服务端：  下载服务端：webissues-server-1.1.5.tar.bz2 创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebIssues">
+<meta property="og:url" content="https://hbcrhythm.github.io/2017/09/16/WebIssues/index.html">
+<meta property="og:site_name" content="New Power">
+<meta property="og:description" content="工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。 系统环境：Centos6.5WebIssues版本：WebIssues1.1.5 服务端：  下载服务端：webissues-server-1.1.5.tar.bz2 创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-30T16:06:04.189Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WebIssues">
+<meta name="twitter:description" content="工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。 系统环境：Centos6.5WebIssues版本：WebIssues1.1.5 服务端：  下载服务端：webissues-server-1.1.5.tar.bz2 创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。">
+  
+    <link rel="alternate" href="/atom.xml" title="New Power" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">New Power</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">No matter how far you may fly, never forget where you come from</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-WebIssues" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/16/WebIssues/" class="article-date">
+  <time datetime="2017-09-16T09:32:53.000Z" itemprop="datePublished">2017-09-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      WebIssues
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。</p>
+<p>系统环境：Centos6.5<br>WebIssues版本：WebIssues1.1.5</p>
+<p>服务端：</p>
+<ul>
+<li>下载服务端：<a href="http://downloads.sourceforge.net/webissues/webissues-server-1.1.5.tar.bz2" target="_blank" rel="noopener">webissues-server-1.1.5.tar.bz2</a></li>
+<li>创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。</li>
+<li>配置webissues-server的nginx(官方主要支持IIS,Apache)，nginx config 里面的root目录指向webissues-server-1.1.5.tar.bz2解压后的目录。</li>
+<li>访问配置好的网站，根据上面的提示安装就可以(中间会有个data目录下面的sites没有权限访问，需要分配777)。</li>
+</ul>
+<p>客户端：</p>
+<ul>
+<li>下载客户端：<a href="http://downloads.sourceforge.net/webissues/webissues-1.1.5-win_x64.exe" target="_blank" rel="noopener">webissues-1.1.5-win_x64.exe</a></li>
+<li>直接用客户端就可以啦。</li>
+</ul>
+<p>官方文档：</p>
+<ul>
+<li><a href="http://wiki.mimec.org/wiki/Main_Page" target="_blank" rel="noopener">wiki</a></li>
+<li><a href="http://doc.mimec.org/webissues/server/" target="_blank" rel="noopener">Manual</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/09/16/WebIssues/" data-id="cjfe7llk00000agve86y5t4b0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/24/pomelo/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          pomelo
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/12/svn-cmd/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">SVN Cmd</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+ 
+  <section id="comments">
+<!--高速版，加载速度快，使用前需测试页面的兼容性-->
+<div id="SOHUCS" sid="WebIssues"></div>
+<script>
+  (function(){
+    var appid = 'cyt9AlIMf',
+    conf = '0f4489db1d54935417a4bdef6ad1ca32';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'https://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+    window.SCS_NO_IFRAME = true;
+  })()
+</script>    
+  </section>
+  </section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/31/nifty/">nifty</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/31/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/22/erlang-cookie/">Erlang Cookie</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/24/pomelo/">pomelo</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/16/WebIssues/">WebIssues</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baocheng Huang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

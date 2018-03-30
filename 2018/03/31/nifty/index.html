@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>nifty | New Power</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文章主要讲 nifty 的安装过程，因为这次坑似乎略多，所以在这里记录下。github 地址 ： https://github.com/parapluu/nifty.git 环境:CentOS release 6.8 (Final) 项目的README.md文件中可以看到，nifty的依赖主要是clang compiler 和 libclang先看http://clang.llvm.org/ge">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nifty">
+<meta property="og:url" content="https://hbcrhythm.github.io/2018/03/31/nifty/index.html">
+<meta property="og:site_name" content="New Power">
+<meta property="og:description" content="本文章主要讲 nifty 的安装过程，因为这次坑似乎略多，所以在这里记录下。github 地址 ： https://github.com/parapluu/nifty.git 环境:CentOS release 6.8 (Final) 项目的README.md文件中可以看到，nifty的依赖主要是clang compiler 和 libclang先看http://clang.llvm.org/ge">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-30T17:03:22.483Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nifty">
+<meta name="twitter:description" content="本文章主要讲 nifty 的安装过程，因为这次坑似乎略多，所以在这里记录下。github 地址 ： https://github.com/parapluu/nifty.git 环境:CentOS release 6.8 (Final) 项目的README.md文件中可以看到，nifty的依赖主要是clang compiler 和 libclang先看http://clang.llvm.org/ge">
+  
+    <link rel="alternate" href="/atom.xml" title="New Power" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">New Power</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">No matter how far you may fly, never forget where you come from</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-nifty" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/31/nifty/" class="article-date">
+  <time datetime="2018-03-30T16:10:36.000Z" itemprop="datePublished">2018-03-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nifty
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文章主要讲 nifty 的安装过程，因为这次坑似乎略多，所以在这里记录下。<br>github 地址 ： <a href="https://github.com/parapluu/nifty.git" target="_blank" rel="noopener">https://github.com/parapluu/nifty.git</a></p>
+<p>环境:<br>CentOS release 6.8 (Final)</p>
+<p>项目的README.md文件中可以看到，nifty的依赖主要是clang compiler 和 libclang<br>先看<a href="http://clang.llvm.org/get_started.html官方给出的安装说明。" target="_blank" rel="noopener">http://clang.llvm.org/get_started.html官方给出的安装说明。</a><br>大概需要的文件这里列下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Package		Version			Notes</span><br><span class="line">GNU Make	3.79, 3.79.1	Makefile/build processor</span><br><span class="line">GCC			&gt;=4.8.0			C/C++ compiler1</span><br><span class="line">python		&gt;=2.7			Automated test suite2</span><br><span class="line">zlib		&gt;=1.2.3.4		Compression library3</span><br></pre></td></tr></table></figure>
+<p>大概分4大块来安装</p>
+<p> <strong>1.</strong> gcc ，python 版本 。<br>        <a href="https://github.com/hbcrhythm/ansible-work-centos/blob/master/src/roles/common/tasks/upgrade_gcc.yml" target="_blank" rel="noopener">devtoolset-3-toolchain ansible demo</a><br>        <a href="https://github.com/hbcrhythm/ansible-work-centos/blob/master/src/roles/common/tasks/upgrade_python.yml" target="_blank" rel="noopener">python ansible demo</a></p>
+<pre><code>安装devtoolset-3-toolchain来解决GCC版本问题，安装完成之后开启就可以。
+关于如何安装devtoolset-3-toolchain 可以看我的ansible demo 中关于gcc的升级和开启。
+剩下的python zlib这些比较简单自己装了。
+python部分也可以看我的ansible demo中关于python安装的部分。
+</code></pre><p> <strong>2.</strong> cmake </p>
+<pre><code>wget https://cmake.org/files/v3.7/cmake-3.7.1.tar.gz
+tar xzf cmake-3.7.1.tar.gz
+cd cmake-3.7.1
+./bootstrap
+gmake -j$(nproc)
+make install
+cd ..
+</code></pre><p> <strong>3.</strong> clang(这里安装的时候在make -j$(nproc) 的时候博主层出现过报错，后面的解决方式是加内存，详细的报错原因没留了，这个大家装的时候可以留意下。可能有人留意到了这里不是官方给出的安装方式，其实是一样的，只是官方的example是trunk的例子，这里是用了release版本。</p>
+<pre><code>wget http://llvm.org/releases/3.9.1/llvm-3.9.1.src.tar.xz
+wget http://llvm.org/releases/3.9.1/cfe-3.9.1.src.tar.xz
+wget http://llvm.org/releases/3.9.1/compiler-rt-3.9.1.src.tar.xz
+wget http://llvm.org/releases/3.9.1/clang-tools-extra-3.9.1.src.tar.xz
+tar xf llvm-3.9.1.src.tar.xz
+mv llvm-3.9.1.src llvm
+cd llvm/tools
+tar xf ../../cfe-3.9.1.src.tar.xz
+mv cfe-3.9.1.src clang
+cd clang/tools
+tar xf ../../../../clang-tools-extra-3.9.1.src.tar.xz
+mv clang-tools-extra-3.9.1.src extra
+cd ../../../projects
+tar xf ../../compiler-rt-3.9.1.src.tar.xz
+mv compiler-rt-3.9.1.src compiler-rt
+cd ../..
+mkdir llvm-build
+cd llvm-build
+cmake -G &quot;Unix Makefiles&quot; -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/data/software/clang3.9.1 -DLLVM_OPTIMIZED_TABLEGEN=1 ../llvm
+make -j$(nproc)
+make install
+</code></pre><ol start="4">
+<li><p>libclang.so</p>
+<pre><code>前面都安装成功之后，在nitfy:compile的时候还会报错，那大概是报libclang.so not found, 这个问题只需要设置下环境变量 LD_LIBRARY_PATH 为libclang.so的路径就可以。
+详细的解决方案看[这里](http://parapluu.github.io/nifty/tutorial_trouble/)
+</code></pre><p>至此,整个nifty已经安装完成了， 注意前面的操作都需要再 gcc&gt;4.8 上操作的，也就是说你的devtoolset-3要一直启动着,不然会报很多奇怪的问题。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2018/03/31/nifty/" data-id="cjfe7llkn0008agveris62gt6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/31/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+ 
+  <section id="comments">
+<!--高速版，加载速度快，使用前需测试页面的兼容性-->
+<div id="SOHUCS" sid="nifty"></div>
+<script>
+  (function(){
+    var appid = 'cyt9AlIMf',
+    conf = '0f4489db1d54935417a4bdef6ad1ca32';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'https://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+    window.SCS_NO_IFRAME = true;
+  })()
+</script>    
+  </section>
+  </section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/31/nifty/">nifty</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/31/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/22/erlang-cookie/">Erlang Cookie</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/24/pomelo/">pomelo</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/16/WebIssues/">WebIssues</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baocheng Huang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

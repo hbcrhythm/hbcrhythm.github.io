@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>SVN Cmd | New Power</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="因为工作中经常需要用到SVN,虽然我知道git很好，但我们要考虑我们项目的大众啊，策划啊，美术啊，运营啊等等等等，所以我们选择了SVN，但因为一些命令，常会忘记，一到要用的时候，方恨未做记录。这里就记录些常用的，和一些遇到问题后用的。 问题:123svn: E155017: Checksum mismatch while updating &amp;apos;xxx&amp;apos;:    expected:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SVN Cmd">
+<meta property="og:url" content="https://hbcrhythm.github.io/2017/09/12/svn-cmd/index.html">
+<meta property="og:site_name" content="New Power">
+<meta property="og:description" content="因为工作中经常需要用到SVN,虽然我知道git很好，但我们要考虑我们项目的大众啊，策划啊，美术啊，运营啊等等等等，所以我们选择了SVN，但因为一些命令，常会忘记，一到要用的时候，方恨未做记录。这里就记录些常用的，和一些遇到问题后用的。 问题:123svn: E155017: Checksum mismatch while updating &amp;apos;xxx&amp;apos;:    expected:">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-30T16:06:04.193Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SVN Cmd">
+<meta name="twitter:description" content="因为工作中经常需要用到SVN,虽然我知道git很好，但我们要考虑我们项目的大众啊，策划啊，美术啊，运营啊等等等等，所以我们选择了SVN，但因为一些命令，常会忘记，一到要用的时候，方恨未做记录。这里就记录些常用的，和一些遇到问题后用的。 问题:123svn: E155017: Checksum mismatch while updating &amp;apos;xxx&amp;apos;:    expected:">
+  
+    <link rel="alternate" href="/atom.xml" title="New Power" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">New Power</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">No matter how far you may fly, never forget where you come from</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-svn-cmd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/12/svn-cmd/" class="article-date">
+  <time datetime="2017-09-12T13:01:13.000Z" itemprop="datePublished">2017-09-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SVN Cmd
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>因为工作中经常需要用到SVN,虽然我知道git很好，但我们要考虑我们项目的大众啊，策划啊，美术啊，运营啊等等等等，所以我们选择了SVN，但因为一些命令，常会忘记，一到要用的时候，方恨未做记录。这里就记录些常用的，和一些遇到问题后用的。</p>
+<p>问题:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svn: E155017: Checksum mismatch while updating &apos;xxx&apos;: </span><br><span class="line">   expected:  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx </span><br><span class="line">     actual:  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><br></pre></td></tr></table></figure></p>
+<p>解决：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svn update --set-depth empty </span><br><span class="line">svn update --set-depth infinity</span><br></pre></td></tr></table></figure></p>
+<p>问题:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn: Previous operation has not finished; run &apos;cleanup&apos; if it was interrupted</span><br></pre></td></tr></table></figure></p>
+<p>解决:<br><a href="https://www.sqlite.org/2017/sqlite-tools-win32-x86-3200100.zip" target="_blank" rel="noopener">sqlite3.exe</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">先下载sqlite3.exe(链接在上方)</span><br><span class="line">将sqlite3复制到报错svn项目的.svn目录的同级目录</span><br><span class="line">sqlite3 .svn/wc.db &quot;select * from work_queue&quot; (查看队列未完成的任务)</span><br><span class="line">sqlite3 .svn/wc.db &quot;delete from work_queue&quot; (清空队列)</span><br><span class="line">svn cleanup</span><br></pre></td></tr></table></figure></p>
+<p>问题:<br><a href="http://semver.org/lang/zh-CN/" target="_blank" rel="noopener">语义化版本</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">打版本(这里涉及到语义化版本的问题,参考上方链接内容)</span><br></pre></td></tr></table></figure></p>
+<p>解决：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn copy svn://xxxx/server/trunk svn://xxxx/server/branch/0.1.0_beta -m &quot;辅助脚本签出新版本：0.1.0_beta&quot;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/09/12/svn-cmd/" data-id="cjfe7llkm0007agven5cxucya" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/16/WebIssues/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          WebIssues
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/08/centos-cmd/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Centos Cmd</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+ 
+  <section id="comments">
+<!--高速版，加载速度快，使用前需测试页面的兼容性-->
+<div id="SOHUCS" sid="SVN Cmd"></div>
+<script>
+  (function(){
+    var appid = 'cyt9AlIMf',
+    conf = '0f4489db1d54935417a4bdef6ad1ca32';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'https://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+    window.SCS_NO_IFRAME = true;
+  })()
+</script>    
+  </section>
+  </section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/31/nifty/">nifty</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/31/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/22/erlang-cookie/">Erlang Cookie</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/24/pomelo/">pomelo</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/16/WebIssues/">WebIssues</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baocheng Huang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

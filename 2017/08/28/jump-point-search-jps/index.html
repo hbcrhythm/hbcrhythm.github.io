@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Jump Point Search(JPS) | New Power</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="闲来无事，这里我写一篇关于jps寻路的文章，希望帮助大家理解jps，也是帮我自己留一个历史的脚印吧！ 首先需要了解的两个概念：  forced neighbors jump point  forced neighborsforced neighbors中文意思是被迫邻居，有两种情况的被迫邻居。 第一种  对角线情况 - 为被迫邻居x + +x n +p x -      第二种  直线情况 - 为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jump Point Search(JPS)">
+<meta property="og:url" content="https://hbcrhythm.github.io/2017/08/28/jump-point-search-jps/index.html">
+<meta property="og:site_name" content="New Power">
+<meta property="og:description" content="闲来无事，这里我写一篇关于jps寻路的文章，希望帮助大家理解jps，也是帮我自己留一个历史的脚印吧！ 首先需要了解的两个概念：  forced neighbors jump point  forced neighborsforced neighbors中文意思是被迫邻居，有两种情况的被迫邻居。 第一种  对角线情况 - 为被迫邻居x + +x n +p x -      第二种  直线情况 - 为">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-30T16:06:04.192Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jump Point Search(JPS)">
+<meta name="twitter:description" content="闲来无事，这里我写一篇关于jps寻路的文章，希望帮助大家理解jps，也是帮我自己留一个历史的脚印吧！ 首先需要了解的两个概念：  forced neighbors jump point  forced neighborsforced neighbors中文意思是被迫邻居，有两种情况的被迫邻居。 第一种  对角线情况 - 为被迫邻居x + +x n +p x -      第二种  直线情况 - 为">
+  
+    <link rel="alternate" href="/atom.xml" title="New Power" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">New Power</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">No matter how far you may fly, never forget where you come from</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-jump-point-search-jps" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/28/jump-point-search-jps/" class="article-date">
+  <time datetime="2017-08-28T05:30:10.000Z" itemprop="datePublished">2017-08-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Jump Point Search(JPS)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>闲来无事，这里我写一篇关于jps寻路的文章，希望帮助大家理解jps，也是帮我自己留一个历史的脚印吧！</p>
+<p>首先需要了解的两个概念：</p>
+<ul>
+<li><strong>forced neighbors</strong></li>
+<li><strong>jump point</strong></li>
+</ul>
+<h3 id="forced-neighbors"><a href="#forced-neighbors" class="headerlink" title="forced neighbors"></a>forced neighbors</h3><p>forced neighbors中文意思是被迫邻居，有两种情况的被迫邻居。</p>
+<p>第一种</p>
+<blockquote>
+<p>对角线情况 - 为被迫邻居<br>x + +<br>x n +<br>p x -    </p>
+</blockquote>
+<p>第二种</p>
+<blockquote>
+<p>直线情况 - 为被迫邻居<br>x x -<br>p n +<br>x x -  </p>
+</blockquote>
+<h3 id="jump-point"><a href="#jump-point" class="headerlink" title="jump point"></a>jump point</h3><p>jump point中文意思是跳跃点，上面两种情况中的n就代表的是jump point ,我们从起始点寻到目标点，就是一个个jump point 这样寻找过去。</p>
+<p>成为jump point 有两个条件<br>:   1、这个点有被迫邻居<br>:   2、这个点是目标点</p>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>说完两个概念，我们直接上个demo讲解下jps寻路过程。(这个demo从s开始寻找到e)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+</tr>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left"><strong>+</strong></td>
+<td style="text-align:left">s</td>
+<td style="text-align:left"><strong>+</strong></td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">e</td>
+<td style="text-align:left">b</td>
+</tr>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left"><strong>+</strong></td>
+<td style="text-align:left"><strong>+</strong></td>
+<td style="text-align:left"><strong>j1</strong></td>
+<td style="text-align:left">j2</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">b</td>
+</tr>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">b</td>
+</tr>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+</tr>
+</tbody>
+</table>
+<p>图中的</p>
+<ul>
+<li>s(start)        <code>起始点</code> </li>
+<li>b(block)       <code>阻碍点</code> </li>
+<li>e(end)       <code>目标点</code></li>
+<li>j(jump point)<code>跳跃点</code></li>
+</ul>
+<p>在这个简单的例子中，要从s寻路到e，我们的jps寻路过程是这样。</p>
+<ul>
+<li><p>1、   <code>把起始点s压入openlist。</code></p>
+</li>
+<li><p>2、   <code>从openlist中弹出一个点，以这个点为当前节点。</code></p>
+</li>
+<li><p>3、   <code>获得当前点附近可以走的所有点,（获得的点）我用了加粗表示。</code> </p>
+</li>
+<li><p>4、   <code>先在这5个点中的3个正方向上的点上寻找jump point。很明显，这3个正方向上都找不到jump point。</code> </p>
+</li>
+<li><p>5、   <code>在5个点中的2个斜方向上的点上寻找jump point。这里需要注意的是，如果寻找方向上的点不是阻碍点也不是jump point的话，那么会&quot;继续搜索&quot;下去。但要注意的是，如果是协方向, 这个&quot;继续搜索&quot;会先对在正方向进行搜索，也就是上下左右，如果没有找到jump point再从协方向搜索。这里很明显，上下左都会遇到阻碍点，但我们向右走的时候会遇到jump point（j2）,而在这种情况下遇到的jump point ,那么我们当前的点( j1 )就会被当做jump point返回。</code></p>
+</li>
+<li><p>6、   <code>设置j1的父节点为s,然后把j1压入openlist。</code></p>
+</li>
+<li><p>7、   <code>我们继续重复上面的操2-6的操作，就可以找到下一个jump point(这里是j2,因为j2满足jump point的条件)。</code></p>
+</li>
+<li><p>8、   <code>我们在找到j2的情况下，再重复2-6，就会发现我们找到了我们的目标点。（如果未完成，继续重复第7步操作，直接找到e点）。</code></p>
+</li>
+<li>9、   <code>最后我们找到e点之后，可以根据每个对应节点的父节点，从后往前推导，整理出一条路径出来。任务完成。</code></li>
+</ul>
+<p>好了，  jump point search 搜索的过程其实就这些，接下来，各位同学去找个实际的代码demo看下，加深下理解吧！go !</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/08/28/jump-point-search-jps/" data-id="cjfe7llke0003agvegb97tzc4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/08/28/A/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          A*
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+ 
+  <section id="comments">
+<!--高速版，加载速度快，使用前需测试页面的兼容性-->
+<div id="SOHUCS" sid="Jump Point Search(JPS)"></div>
+<script>
+  (function(){
+    var appid = 'cyt9AlIMf',
+    conf = '0f4489db1d54935417a4bdef6ad1ca32';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'https://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+    window.SCS_NO_IFRAME = true;
+  })()
+</script>    
+  </section>
+  </section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/31/nifty/">nifty</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/31/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/22/erlang-cookie/">Erlang Cookie</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/24/pomelo/">pomelo</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/16/WebIssues/">WebIssues</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baocheng Huang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
