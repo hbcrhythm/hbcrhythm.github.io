@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>pomelo | New Power</title>
+  <title>速读代码 | New Power</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hello world。今年为止，撸的框架记录下。  node.js+vue webapp laravel+angular side egret h5 demo unity+tolua game framework asch  前面3个在我的github上都有记录。我撸框架在习惯Overleaf上画流程图，记录下框架的架构。我觉得画流程图是一个很好的方式，后面复习的话可以很清晰的回想起这个框架的架">
+  <meta name="description" content="今天看到一些人在网上讨论关于读代码的问题，引发了一些思考。这里我写下个人的一些看法。 可能大家遇到过一样的问题，发现github某款项目的核心思想很好，我们想去了解它具体的实现，但是直接去撸的话发现代码量庞大，甚至有一些奇淫技巧在里面，读起来吃力且费时间，并且因为我们的目的很明确，只想了解它的核心思想实现，不想花费太多的时间在其他方面。 对于这种情况，可以选择的一个方法是翻他的历史记录，去读他的第">
 <meta property="og:type" content="article">
-<meta property="og:title" content="pomelo">
-<meta property="og:url" content="https://hbcrhythm.github.io/2017/09/24/pomelo/index.html">
+<meta property="og:title" content="速读代码">
+<meta property="og:url" content="https://hbcrhythm.github.io/2018/02/24/Read-Code/index.html">
 <meta property="og:site_name" content="New Power">
-<meta property="og:description" content="hello world。今年为止，撸的框架记录下。  node.js+vue webapp laravel+angular side egret h5 demo unity+tolua game framework asch  前面3个在我的github上都有记录。我撸框架在习惯Overleaf上画流程图，记录下框架的架构。我觉得画流程图是一个很好的方式，后面复习的话可以很清晰的回想起这个框架的架">
+<meta property="og:description" content="今天看到一些人在网上讨论关于读代码的问题，引发了一些思考。这里我写下个人的一些看法。 可能大家遇到过一样的问题，发现github某款项目的核心思想很好，我们想去了解它具体的实现，但是直接去撸的话发现代码量庞大，甚至有一些奇淫技巧在里面，读起来吃力且费时间，并且因为我们的目的很明确，只想了解它的核心思想实现，不想花费太多的时间在其他方面。 对于这种情况，可以选择的一个方法是翻他的历史记录，去读他的第">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-10-05T14:00:04.272Z">
+<meta property="og:updated_time" content="2018-02-24T15:17:38.197Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="pomelo">
-<meta name="twitter:description" content="hello world。今年为止，撸的框架记录下。  node.js+vue webapp laravel+angular side egret h5 demo unity+tolua game framework asch  前面3个在我的github上都有记录。我撸框架在习惯Overleaf上画流程图，记录下框架的架构。我觉得画流程图是一个很好的方式，后面复习的话可以很清晰的回想起这个框架的架">
+<meta name="twitter:title" content="速读代码">
+<meta name="twitter:description" content="今天看到一些人在网上讨论关于读代码的问题，引发了一些思考。这里我写下个人的一些看法。 可能大家遇到过一样的问题，发现github某款项目的核心思想很好，我们想去了解它具体的实现，但是直接去撸的话发现代码量庞大，甚至有一些奇淫技巧在里面，读起来吃力且费时间，并且因为我们的目的很明确，只想了解它的核心思想实现，不想花费太多的时间在其他方面。 对于这种情况，可以选择的一个方法是翻他的历史记录，去读他的第">
   
     <link rel="alternate" href="/atom.xml" title="New Power" type="application/atom+xml">
   
@@ -60,10 +60,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-pomelo" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Read-Code" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/09/24/pomelo/" class="article-date">
-  <time datetime="2017-09-24T14:41:23.000Z" itemprop="datePublished">2017-09-24</time>
+    <a href="/2018/02/24/Read-Code/" class="article-date">
+  <time datetime="2018-02-24T15:11:27.000Z" itemprop="datePublished">2018-02-24</time>
 </a>
     
   </div>
@@ -74,7 +74,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      pomelo
+      速读代码
     </h1>
   
 
@@ -82,24 +82,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>hello world。<br>今年为止，撸的框架记录下。</p>
-<ul>
-<li>node.js+vue webapp</li>
-<li>laravel+angular side</li>
-<li>egret h5 demo</li>
-<li>unity+tolua game framework</li>
-<li>asch</li>
-</ul>
-<p>前面3个在我的github上都有记录。<br>我撸框架在习惯Overleaf上画流程图，记录下框架的架构。我觉得画流程图是一个很好的方式，后面复习的话可以很清晰的回想起这个框架的架构。(非广告，嘻嘻)<br>现在, 决定开始撸pomelo 这套啦。虽然现在工作很忙，但看了这套架构的概述，还是挺好奇的。<br>这里立此贴为证，后面如果觉得有所感悟再写出来分享下啦。</p>
-<p>—————————-update—————————–<br>2017/10/5<br>pomelo-chat看的七七八八了，架构图的话，其实不用自己写，pomelo wiki有丰富的的架构图，流程简图。如果大家对big world的架构有兴趣，可以读读这款。长见识嘛！</p>
-<p>如果真用来做项目的话，其实不太建议，因为我本身是做erlang的，读了pomelo-chat 感觉pomelo是想在做一个node.js的erlang,那我为什么不直接用erlang来写呢。</p>
-<p>pomelo的master,monitor组件挺好的，对远程服务器提供控制和监控，看看什么时候可以为现在项目弄一套。</p>
-<p>end</p>
+        <p>今天看到一些人在网上讨论关于读代码的问题，引发了一些思考。这里我写下个人的一些看法。</p>
+<p>可能大家遇到过一样的问题，发现github某款项目的核心思想很好，我们想去了解它具体的实现，但是直接去撸的话发现代码量庞大，甚至有一些奇淫技巧在里面，读起来吃力且费时间，并且因为我们的目的很明确，只想了解它的核心思想实现，不想花费太多的时间在其他方面。</p>
+<p>对于这种情况，可以选择的一个方法是翻他的历史记录，去读他的第一版或前几个版本的的代码，通常早期的版本可以用一个词来总结:”麻雀虽小五脏俱全”, 这个版本的代码量通常不多，并且设计的思想很明确，思路很清晰，处理问题具有针对性，这个阶段的源码比较适合我们去了解它的核心思想或者说背后的设计理念，而且一个流程下来我们花费的时间也不多。</p>
+<p>至于后面代码变的复杂，因为核心功能确定之后，代码不断的重构和优化，版本不断的迭代，堆叠起来就渐渐的把项目弄复杂。</p>
+<p>这或许就是古语中说的:”拨开云雾见月明”。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/09/24/pomelo/" data-id="cjfe86xp2000a7wvem4p52da0" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/02/24/Read-Code/" data-id="cjfe86xnz00007wvelhhyg2ki" class="article-share-link">Share</a>
       
       
     </footer>
@@ -108,19 +100,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/10/22/erlang-cookie/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/02/27/unity-resolution/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Erlang Cookie
+          UGUI Resoulution
         
       </div>
     </a>
   
   
-    <a href="/2017/09/16/WebIssues/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/02/13/GAME-AI/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">WebIssues</div>
+      <div class="article-nav-title">GAME-AI</div>
     </a>
   
 </nav>
@@ -131,7 +123,7 @@
  
   <section id="comments">
 <!--高速版，加载速度快，使用前需测试页面的兼容性-->
-<div id="SOHUCS" sid="pomelo"></div>
+<div id="SOHUCS" sid="速读代码"></div>
 <script>
   (function(){
     var appid = 'cyt9AlIMf',

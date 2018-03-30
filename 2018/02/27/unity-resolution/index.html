@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>UGUI Resoulution | New Power</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="UGUI针对Android五花八门分辨率的屏幕自适应。  Canvas 选择Screen Space-Camera 模式。 Canvas 设置成Orthographic模式。 Canvas Scaler 选择 Scale With Screen Size，并且 Screen Match Mode 选择 Match Width Or Height， 比例设置为0，只和宽度进行适配。  代码上的处理：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UGUI Resoulution">
+<meta property="og:url" content="https://hbcrhythm.github.io/2018/02/27/unity-resolution/index.html">
+<meta property="og:site_name" content="New Power">
+<meta property="og:description" content="UGUI针对Android五花八门分辨率的屏幕自适应。  Canvas 选择Screen Space-Camera 模式。 Canvas 设置成Orthographic模式。 Canvas Scaler 选择 Scale With Screen Size，并且 Screen Match Mode 选择 Match Width Or Height， 比例设置为0，只和宽度进行适配。  代码上的处理：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-02-27T05:56:28.963Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UGUI Resoulution">
+<meta name="twitter:description" content="UGUI针对Android五花八门分辨率的屏幕自适应。  Canvas 选择Screen Space-Camera 模式。 Canvas 设置成Orthographic模式。 Canvas Scaler 选择 Scale With Screen Size，并且 Screen Match Mode 选择 Match Width Or Height， 比例设置为0，只和宽度进行适配。  代码上的处理：">
+  
+    <link rel="alternate" href="/atom.xml" title="New Power" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">New Power</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">No matter how far you may fly, never forget where you come from</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-unity-resolution" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/27/unity-resolution/" class="article-date">
+  <time datetime="2018-02-27T05:16:31.000Z" itemprop="datePublished">2018-02-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      UGUI Resoulution
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>UGUI针对Android五花八门分辨率的屏幕自适应。</p>
+<ol>
+<li>Canvas 选择Screen Space-Camera 模式。</li>
+<li>Canvas 设置成Orthographic模式。</li>
+<li>Canvas Scaler 选择 Scale With Screen Size，并且 Screen Match Mode 选择 Match Width Or Height， 比例设置为0，只和宽度进行适配。</li>
+</ol>
+<p>代码上的处理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">void InitResolution() &#123;</span><br><span class="line">    if (ClientConfig.PLATFORM != PlatformType.Android) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int width = Screen.currentResolution.width;</span><br><span class="line">    int height = Screen.currentResolution.height;</span><br><span class="line">    int targetWidth = 960;</span><br><span class="line">    int targetHeight = 640;</span><br><span class="line"></span><br><span class="line">    if (width &lt;= targetWidth || height &lt;= targetHeight) </span><br><span class="line">        return;</span><br><span class="line"></span><br><span class="line">    float targetRatio = targetWidth / (float)targetHeight;</span><br><span class="line">    float currentRatio = width / (float)height;</span><br><span class="line"></span><br><span class="line">    if (targetRatio &lt; currentRatio) &#123;</span><br><span class="line">        targetWidth = (int)Mathf.CeilToInt(targetHeight * currentRatio);</span><br><span class="line">    &#125; else if (targetRatio &gt; currentRatio) &#123;</span><br><span class="line">        targetHeight = (int)Mathf.FloorToInt(targetWidth / currentRatio);</span><br><span class="line">    &#125;</span><br><span class="line">    Screen.SetResolution(targetWidth, targetHeight, true);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>基本是这样，现在似乎有一款手机(哪一款忘记了)屏幕宽度是高度的2倍+的，这个要特殊处理下，<br>直接把Canvas Scaler 的 Match Width Or Height 比例设置成1。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2018/02/27/unity-resolution/" data-id="cjfe86xpb000c7wve2prgyk0v" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/31/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/24/Read-Code/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">速读代码</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+ 
+  <section id="comments">
+<!--高速版，加载速度快，使用前需测试页面的兼容性-->
+<div id="SOHUCS" sid="UGUI Resoulution"></div>
+<script>
+  (function(){
+    var appid = 'cyt9AlIMf',
+    conf = '0f4489db1d54935417a4bdef6ad1ca32';
+    var doc = document,
+    s = doc.createElement('script'),
+    h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+    s.type = 'text/javascript';
+    s.charset = 'utf-8';
+    s.src =  'https://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+    h.insertBefore(s,h.firstChild);
+    window.SCS_NO_IFRAME = true;
+  })()
+</script>    
+  </section>
+  </section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/31/nifty/">nifty</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/31/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/27/unity-resolution/">UGUI Resoulution</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/24/Read-Code/">速读代码</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/13/GAME-AI/">GAME-AI</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baocheng Huang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
