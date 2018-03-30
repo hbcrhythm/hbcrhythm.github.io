@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>New Power</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="No matter how far you may fly, never forget where you come from">
+<meta property="og:type" content="website">
+<meta property="og:title" content="New Power">
+<meta property="og:url" content="https://hbcrhythm.github.io/index.html">
+<meta property="og:site_name" content="New Power">
+<meta property="og:description" content="No matter how far you may fly, never forget where you come from">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="New Power">
+<meta name="twitter:description" content="No matter how far you may fly, never forget where you come from">
+  
+    <link rel="alternate" href="/atom.xml" title="New Power" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">New Power</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">No matter how far you may fly, never forget where you come from</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-nifty" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/31/nifty/" class="article-date">
+  <time datetime="2018-03-30T16:10:36.000Z" itemprop="datePublished">2018-03-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/31/nifty/">nifty</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文章主要讲 nifty 的安装过程，因为这次坑似乎略多，所以在这里记录下。<br>github 地址 ： <a href="https://github.com/parapluu/nifty.git" target="_blank" rel="noopener">https://github.com/parapluu/nifty.git</a></p>
+<p>环境:<br>CentOS release 6.8 (Final)</p>
+<p>项目的README.md文件中可以看到，nifty的依赖主要是clang compiler 和 libclang<br>先看<a href="http://clang.llvm.org/get_started.html官方给出的安装说明。" target="_blank" rel="noopener">http://clang.llvm.org/get_started.html官方给出的安装说明。</a><br>大概需要的文件这里列下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Package		Version			Notes</span><br><span class="line">GNU Make	3.79, 3.79.1	Makefile/build processor</span><br><span class="line">GCC			&gt;=4.8.0			C/C++ compiler1</span><br><span class="line">python		&gt;=2.7			Automated test suite2</span><br><span class="line">zlib		&gt;=1.2.3.4		Compression library3</span><br></pre></td></tr></table></figure>
+<p>大概分4大块来安装</p>
+<p> <strong>1.</strong> gcc ，python 版本 。<br>        <a href="https://github.com/hbcrhythm/ansible-work-centos/blob/master/src/roles/common/tasks/upgrade_gcc.yml" target="_blank" rel="noopener">devtoolset-3-toolchain ansible demo</a><br>        <a href="https://github.com/hbcrhythm/ansible-work-centos/blob/master/src/roles/common/tasks/upgrade_python.yml" target="_blank" rel="noopener">python ansible demo</a></p>
+<pre><code>安装devtoolset-3-toolchain来解决GCC版本问题，安装完成之后开启就可以。
+关于如何安装devtoolset-3-toolchain 可以看我的ansible demo 中关于gcc的升级和开启。
+剩下的python zlib这些比较简单自己装了。
+python部分也可以看我的ansible demo中关于python安装的部分。
+</code></pre><p> <strong>2.</strong> cmake </p>
+<pre><code>wget https://cmake.org/files/v3.7/cmake-3.7.1.tar.gz
+tar xzf cmake-3.7.1.tar.gz
+cd cmake-3.7.1
+./bootstrap
+gmake -j$(nproc)
+make install
+cd ..
+</code></pre><p> <strong>3.</strong> clang(这里安装的时候在make -j$(nproc) 的时候博主层出现过报错，后面的解决方式是加内存，详细的报错原因没留了，这个大家装的时候可以留意下。可能有人留意到了这里不是官方给出的安装方式，其实是一样的，只是官方的example是trunk的例子，这里是用了release版本。</p>
+<pre><code>wget http://llvm.org/releases/3.9.1/llvm-3.9.1.src.tar.xz
+wget http://llvm.org/releases/3.9.1/cfe-3.9.1.src.tar.xz
+wget http://llvm.org/releases/3.9.1/compiler-rt-3.9.1.src.tar.xz
+wget http://llvm.org/releases/3.9.1/clang-tools-extra-3.9.1.src.tar.xz
+tar xf llvm-3.9.1.src.tar.xz
+mv llvm-3.9.1.src llvm
+cd llvm/tools
+tar xf ../../cfe-3.9.1.src.tar.xz
+mv cfe-3.9.1.src clang
+cd clang/tools
+tar xf ../../../../clang-tools-extra-3.9.1.src.tar.xz
+mv clang-tools-extra-3.9.1.src extra
+cd ../../../projects
+tar xf ../../compiler-rt-3.9.1.src.tar.xz
+mv compiler-rt-3.9.1.src compiler-rt
+cd ../..
+mkdir llvm-build
+cd llvm-build
+cmake -G &quot;Unix Makefiles&quot; -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/data/software/clang3.9.1 -DLLVM_OPTIMIZED_TABLEGEN=1 ../llvm
+make -j$(nproc)
+make install
+</code></pre><ol start="4">
+<li><p>libclang.so</p>
+<pre><code>前面都安装成功之后，在nitfy:compile的时候还会报错，那大概是报libclang.so not found, 这个问题只需要设置下环境变量 LD_LIBRARY_PATH 为libclang.so的路径就可以。
+详细的解决方案看[这里](http://parapluu.github.io/nifty/tutorial_trouble/)
+</code></pre><p>至此,整个nifty已经安装完成了， 注意前面的操作都需要再 gcc&gt;4.8 上操作的，也就是说你的devtoolset-3要一直启动着,不然会报很多奇怪的问题。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2018/03/31/nifty/" data-id="cjfe7q6t40005b0veyu1h4l97" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+ 
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/31/hello-world/" class="article-date">
+  <time datetime="2018-03-30T16:06:04.191Z" itemprop="datePublished">2018-03-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/31/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2018/03/31/hello-world/" data-id="cjfe7q6t00004b0veos36msgm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+ 
+  
+    <article id="post-erlang-cookie" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/22/erlang-cookie/" class="article-date">
+  <time datetime="2017-10-21T16:42:13.000Z" itemprop="datePublished">2017-10-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/22/erlang-cookie/">Erlang Cookie</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在写一个cluster_demo， 遇到一个问题，我的集群中的两个节点在windows下大概是这样启动的。</p>
+<pre><code>erl -name a@127.0.0.1 -setcookie aa
+erl -name b@127.0.0.1 -setcookie bb
+</code></pre><p>因为我知道，节点间的互连要<strong>cookie一致</strong>，我们可以通过下面这个函数设置cookie</p>
+<pre><code>erlang:set_cookie(Node, NodeCookie)
+</code></pre><p>或许大家看过官方文档和一些博客里面写的，集群节点可以不需要全部节点同一个cookie，只需要使用erlang:set_cookie去设置你想要连接节点的cookie。<br>我把这句话理解点代码是这样:</p>
+<p>在<a href="mailto:a@127.0.0.1" target="_blank" rel="noopener">a@127.0.0.1</a>节点上，我进行如下操作</p>
+<pre><code>erlang:set_cookie(&apos;b@127.0.0.1&apos;, bb)
+</code></pre><p>在<a href="mailto:b@127.0.0.1" target="_blank" rel="noopener">b@127.0.0.1</a>节点上，我进行如下操作</p>
+<pre><code>erlang:set_cookie(&apos;a@127.0.0.1&apos;, aa)
+</code></pre><p>我以为这样的话，那么我们就可以在a或者b上直接ping通对方，但是事实却不是这样，当我在 <a href="mailto:a@127.0.0.1" target="_blank" rel="noopener">a@127.0.0.1</a> 节点上执行</p>
+<pre><code>net_adm:ping(&apos;b@127.0.0.1&apos;)
+</code></pre><p>他的连接并没有成功，并且提示在<a href="mailto:b@127.0.0.1" target="_blank" rel="noopener">b@127.0.0.1</a>上给我的提示是</p>
+<pre><code>** Connection attempt from disallowed node ‘a@127.0.0.1&apos; **
+</code></pre><p>我搜索了erlang的kernel的库代码，找到了2个地方会存在这个提示，</p>
+<p>erlang kernel version: <strong>kernel-4.1.1</strong></p>
+<p>dist_util.erl 151行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">%% check if connecting node is allowed to connect with allow-node-scheme</span><br><span class="line">is_allowed(#hs_data&#123;other_node = Node, </span><br><span class="line">		    allowed = Allowed&#125; = HSData) -&gt;</span><br><span class="line">    case lists:member(Node, Allowed) of</span><br><span class="line">	false when Allowed =/= [] -&gt;</span><br><span class="line">	    send_status(HSData, not_allowed),</span><br><span class="line">	    error_msg(&quot;** Connection attempt from &quot;</span><br><span class="line">		      &quot;disallowed node ~w ** ~n&quot;, [Node]),</span><br><span class="line">	    ?shutdown(Node);</span><br><span class="line">	_ -&gt; true</span><br><span class="line">    end.</span><br></pre></td></tr></table></figure></p>
+<p>dist_util.erl 591行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">%% wait for challenge response after send_challenge</span><br><span class="line">recv_challenge_reply(#hs_data&#123;socket = Socket, </span><br><span class="line">			      other_node = NodeB,</span><br><span class="line">			      f_recv = FRecv&#125;, </span><br><span class="line">		     ChallengeA, Cookie) -&gt;</span><br><span class="line">    case FRecv(Socket, 0, infinity) of</span><br><span class="line">	&#123;ok,[$r,CB3,CB2,CB1,CB0 | SumB]&#125; when length(SumB) =:= 16 -&gt;</span><br><span class="line">	    SumA = gen_digest(ChallengeA, Cookie),</span><br><span class="line">	    ChallengeB = ?u32(CB3,CB2,CB1,CB0),</span><br><span class="line">	    ?trace(&quot;recv_reply: challenge=~w digest=~p\n&quot;,</span><br><span class="line">		   [ChallengeB,SumB]),</span><br><span class="line">	    ?trace(&quot;sum = ~p\n&quot;, [SumA]),</span><br><span class="line">	    case list_to_binary(SumB) of</span><br><span class="line">		SumA -&gt;</span><br><span class="line">		    ChallengeB;</span><br><span class="line">		_ -&gt;</span><br><span class="line">		    error_msg(&quot;** Connection attempt from &quot;</span><br><span class="line">			      &quot;disallowed node ~w ** ~n&quot;, [NodeB]),</span><br><span class="line">		    ?shutdown(NodeB)</span><br><span class="line">	    end;</span><br><span class="line">	_ -&gt;</span><br><span class="line">	    ?shutdown(no_node)</span><br><span class="line">    end.</span><br></pre></td></tr></table></figure></p>
+<p>很明显，不是151行的问题，通过设置 net_kernel:allow([]) 可以排除这个问题。<br>看代码可以发现 当SumB =/= SumA的时候就会返回这个提示，SumB是接收到的，SumA是我们计算出来的，</p>
+<pre><code>SumA = gen_digest(ChallengeA, Cookie)
+</code></pre><p>SumA是这样生成的，查看了ChallengeA的生成代码，只是进行一些算数，然后生成的一个值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">gen_challenge() -&gt;</span><br><span class="line">    A = erlang:phash2([erlang:node()]),</span><br><span class="line">    B = erlang:monotonic_time(),</span><br><span class="line">    C = erlang:unique_integer(),</span><br><span class="line">    &#123;D,_&#125;   = erlang:statistics(reductions),</span><br><span class="line">    &#123;E,_&#125;   = erlang:statistics(runtime),</span><br><span class="line">    &#123;F,_&#125;   = erlang:statistics(wall_clock),</span><br><span class="line">    &#123;G,H,_&#125; = erlang:statistics(garbage_collection),</span><br><span class="line">    %% A(8) B(16) C(16)</span><br><span class="line">    %% D(16),E(8), F(16) G(8) H(16)</span><br><span class="line">    ( ((A bsl 24) + (E bsl 16) + (G bsl 8) + F) bxor</span><br><span class="line">      (B + (C bsl 16)) bxor </span><br><span class="line">      (D + (H bsl 16)) ) band 16#ffffffff.</span><br></pre></td></tr></table></figure></p>
+<p>打印Cookie的值，发现是aa ,正式我们在<a href="mailto:b@127.0.0.1" target="_blank" rel="noopener">b@127.0.0.1</a>上设置的<a href="mailto:a@127.0.0.1" target="_blank" rel="noopener">a@127.0.0.1</a>的cookie。<br>基本上能断定出问题的就是这个cookie值了。</p>
+<p>但这里有一个情况出现，如果我们两个脚本的启动时这样的</p>
+<pre><code>erl -name  a@127.0.0.1 -setcookie aa
+erl -name  b@127.0.0.1 -setcookie aa
+</code></pre><p>我们可以直接net_adm:ping()成功对方。<br>我们查看官方文档，erlang:set_cookie()的解释</p>
+<blockquote>
+<p>Sets the magic cookie of Node to the atom Cookie. If Node is the local node, the function also sets the cookie of all other unknown nodes to Cookie (see Section Distributed Erlang in the Erlang Reference Manual in System Documentation).</p>
+</blockquote>
+<p>因为我们启动的时候setcookie ，按照官方文档的解释，其实在<a href="mailto:a@127.0.0.1" target="_blank" rel="noopener">a@127.0.0.1</a>节点上也可以说是进行了这样操作的</p>
+<pre><code>erlang:set_cookie(&apos;b@127.0.0.1&apos;， aa)
+</code></pre><p>同理，在<a href="mailto:b@127.0.0.1" target="_blank" rel="noopener">b@127.0.0.1</a>上就是</p>
+<pre><code>erlang:set_cookie(&apos;a@127.0.0.1&apos;, aa)
+</code></pre><p>这样我们可以发现，其实他们可以互连，是因为他们都设置对方的cookie为同一个值，我们做个尝试，在两个节点上分别执行下面2个操作</p>
+<pre><code>erl -name a@127.0.0.1 -setcookie aa
+erlang:set_cookie(&apos;b@127.0.0.1&apos;, cc)
+
+erl -name b@127.0.0.1 -setcookie bb
+erlang:set_cookie(&apos;a@127.0.0.1&apos;, cc)
+</code></pre><p>然后在进行net_adm:ping()发现，他们pong了。<br>我们可以得出结果，其实他们要互连，是需要双方将对方的cookie设置为同一个值。</p>
+<p>我们在去翻下 Distributed Erlang章节的文档，发现其实是有这句话的，</p>
+<blockquote>
+<p>For a node Node1 with magic cookie Cookie to be able to connect to, or accept a connection from, another node Node2 with a different cookie DiffCookie, the function erlang:set_cookie(Node2, DiffCookie) must first be called at Node1. Distributed systems with multiple user IDs can be handled in this way.</p>
+</blockquote>
+<p>仔细看，他只是说需要在Node1 上 erlang:set_cookie(Node2, DiffCookie) ，并没有说 Node2上也需要调用erlang:set_cookie()啊。。。。。。额，其实我一直以为是文档不详细。。。。。。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/10/22/erlang-cookie/" data-id="cjfe7q6sz0003b0ve234i1jyz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+ 
+  
+    <article id="post-pomelo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/24/pomelo/" class="article-date">
+  <time datetime="2017-09-24T14:41:23.000Z" itemprop="datePublished">2017-09-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/24/pomelo/">pomelo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>hello world。<br>今年为止，撸的框架记录下。</p>
+<ul>
+<li>node.js+vue webapp</li>
+<li>laravel+angular side</li>
+<li>egret h5 demo</li>
+<li>unity+tolua game framework</li>
+<li>asch</li>
+</ul>
+<p>前面3个在我的github上都有记录。<br>我撸框架在习惯Overleaf上画流程图，记录下框架的架构。我觉得画流程图是一个很好的方式，后面复习的话可以很清晰的回想起这个框架的架构。(非广告，嘻嘻)<br>现在, 决定开始撸pomelo 这套啦。虽然现在工作很忙，但看了这套架构的概述，还是挺好奇的。<br>这里立此贴为证，后面如果觉得有所感悟再写出来分享下啦。</p>
+<p>—————————-update—————————–<br>2017/10/5<br>pomelo-chat看的七七八八了，架构图的话，其实不用自己写，pomelo wiki有丰富的的架构图，流程简图。如果大家对big world的架构有兴趣，可以读读这款。长见识嘛！</p>
+<p>如果真用来做项目的话，其实不太建议，因为我本身是做erlang的，读了pomelo-chat 感觉pomelo是想在做一个node.js的erlang,那我为什么不直接用erlang来写呢。</p>
+<p>pomelo的master,monitor组件挺好的，对远程服务器提供控制和监控，看看什么时候可以为现在项目弄一套。</p>
+<p>end</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/09/24/pomelo/" data-id="cjfe7q6t60007b0vej0v0ia5q" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+ 
+  
+    <article id="post-WebIssues" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/16/WebIssues/" class="article-date">
+  <time datetime="2017-09-16T09:32:53.000Z" itemprop="datePublished">2017-09-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/16/WebIssues/">WebIssues</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。</p>
+<p>系统环境：Centos6.5<br>WebIssues版本：WebIssues1.1.5</p>
+<p>服务端：</p>
+<ul>
+<li>下载服务端：<a href="http://downloads.sourceforge.net/webissues/webissues-server-1.1.5.tar.bz2" target="_blank" rel="noopener">webissues-server-1.1.5.tar.bz2</a></li>
+<li>创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。</li>
+<li>配置webissues-server的nginx(官方主要支持IIS,Apache)，nginx config 里面的root目录指向webissues-server-1.1.5.tar.bz2解压后的目录。</li>
+<li>访问配置好的网站，根据上面的提示安装就可以(中间会有个data目录下面的sites没有权限访问，需要分配777)。</li>
+</ul>
+<p>客户端：</p>
+<ul>
+<li>下载客户端：<a href="http://downloads.sourceforge.net/webissues/webissues-1.1.5-win_x64.exe" target="_blank" rel="noopener">webissues-1.1.5-win_x64.exe</a></li>
+<li>直接用客户端就可以啦。</li>
+</ul>
+<p>官方文档：</p>
+<ul>
+<li><a href="http://wiki.mimec.org/wiki/Main_Page" target="_blank" rel="noopener">wiki</a></li>
+<li><a href="http://doc.mimec.org/webissues/server/" target="_blank" rel="noopener">Manual</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/09/16/WebIssues/" data-id="cjfe7q6sx0002b0vefm185iii" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+ 
+  
+    <article id="post-svn-cmd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/12/svn-cmd/" class="article-date">
+  <time datetime="2017-09-12T13:01:13.000Z" itemprop="datePublished">2017-09-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/12/svn-cmd/">SVN Cmd</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>因为工作中经常需要用到SVN,虽然我知道git很好，但我们要考虑我们项目的大众啊，策划啊，美术啊，运营啊等等等等，所以我们选择了SVN，但因为一些命令，常会忘记，一到要用的时候，方恨未做记录。这里就记录些常用的，和一些遇到问题后用的。</p>
+<p>问题:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svn: E155017: Checksum mismatch while updating &apos;xxx&apos;: </span><br><span class="line">   expected:  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx </span><br><span class="line">     actual:  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><br></pre></td></tr></table></figure></p>
+<p>解决：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svn update --set-depth empty </span><br><span class="line">svn update --set-depth infinity</span><br></pre></td></tr></table></figure></p>
+<p>问题:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn: Previous operation has not finished; run &apos;cleanup&apos; if it was interrupted</span><br></pre></td></tr></table></figure></p>
+<p>解决:<br><a href="https://www.sqlite.org/2017/sqlite-tools-win32-x86-3200100.zip" target="_blank" rel="noopener">sqlite3.exe</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">先下载sqlite3.exe(链接在上方)</span><br><span class="line">将sqlite3复制到报错svn项目的.svn目录的同级目录</span><br><span class="line">sqlite3 .svn/wc.db &quot;select * from work_queue&quot; (查看队列未完成的任务)</span><br><span class="line">sqlite3 .svn/wc.db &quot;delete from work_queue&quot; (清空队列)</span><br><span class="line">svn cleanup</span><br></pre></td></tr></table></figure></p>
+<p>问题:<br><a href="http://semver.org/lang/zh-CN/" target="_blank" rel="noopener">语义化版本</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">打版本(这里涉及到语义化版本的问题,参考上方链接内容)</span><br></pre></td></tr></table></figure></p>
+<p>解决：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn copy svn://xxxx/server/trunk svn://xxxx/server/branch/0.1.0_beta -m &quot;辅助脚本签出新版本：0.1.0_beta&quot;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/09/12/svn-cmd/" data-id="cjfe7q6t50006b0vej0n7zj2y" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+ 
+  
+    <article id="post-centos-cmd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/08/centos-cmd/" class="article-date">
+  <time datetime="2017-09-08T15:24:00.000Z" itemprop="datePublished">2017-09-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/08/centos-cmd/">Centos Cmd</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>可能人老了吧，记忆衰退了，一些常用的命令也会忘记，而且本人书签很多，找起来不容易，这里就整理下一些常用的Centos Cmd，方面后面查看。这些都是经常用到的 Cmd。大部分Cmd可以直接用参数 –help 来查看相应的注释。</p>
+<h5 id="查看外网地址："><a href="#查看外网地址：" class="headerlink" title="查看外网地址："></a>查看外网地址：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl icanhazip.com</span><br></pre></td></tr></table></figure>
+<p>or<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl ifconfig.me</span><br></pre></td></tr></table></figure></p>
+<h5 id="查看文件夹大小"><a href="#查看文件夹大小" class="headerlink" title="查看文件夹大小:"></a>查看文件夹大小:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ du -sh dirname</span><br></pre></td></tr></table></figure>
+<h5 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件:"></a>查找文件:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locate -i /etc/sh  #查找/etc目录下的sh开头的文件</span><br></pre></td></tr></table></figure>
+<p>or<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find / -name mod.erl #查找/目录下的名为mod.erl的文件</span><br></pre></td></tr></table></figure></p>
+<h5 id="在多文件中查找指定字符："><a href="#在多文件中查找指定字符：" class="headerlink" title="在多文件中查找指定字符："></a>在多文件中查找指定字符：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ grep &quot;被查找字符&quot; dirname</span><br></pre></td></tr></table></figure>
+<h5 id="服务器TIME-WAIT查看"><a href="#服务器TIME-WAIT查看" class="headerlink" title="服务器TIME_WAIT查看:"></a>服务器TIME_WAIT查看:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ netstat -n | awk &apos;/^tcp/ &#123;++S[$NF]&#125; END &#123;for(a in S) print a, S[a]&#125;&apos;</span><br></pre></td></tr></table></figure>
+<h5 id="服务器TIME-WAIT处理"><a href="#服务器TIME-WAIT处理" class="headerlink" title="服务器TIME_WAIT处理:"></a>服务器TIME_WAIT处理:</h5><p>修改 /etc/sysctl.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#对于一个新建连接，内核要发送多少个 SYN 连接请求才决定放弃,不应该大于255，默认值是5，对应于180秒左右时间  </span><br><span class="line">net.ipv4.tcp_syn_retries=2  </span><br><span class="line">#net.ipv4.tcp_synack_retries=2  </span><br><span class="line">#表示当keepalive起用的时候，TCP发送keepalive消息的频度。缺省是2小时，改为300秒  </span><br><span class="line">net.ipv4.tcp_keepalive_time=1200  </span><br><span class="line">net.ipv4.tcp_orphan_retries=3  </span><br><span class="line">#表示如果套接字由本端要求关闭，这个参数决定了它保持在FIN-WAIT-2状态的时间  </span><br><span class="line">net.ipv4.tcp_fin_timeout=30  </span><br><span class="line">#表示SYN队列的长度，默认为1024，加大队列长度为8192，可以容纳更多等待连接的网络连接数。  </span><br><span class="line">net.ipv4.tcp_max_syn_backlog = 4096  </span><br><span class="line">  </span><br><span class="line">#表示开启SYN Cookies。当出现SYN等待队列溢出时，启用cookies来处理，可防范少量SYN攻击，默认为0，表示关闭  </span><br><span class="line">net.ipv4.tcp_syncookies = 1  </span><br><span class="line">#表示开启重用。允许将TIME-WAIT sockets重新用于新的TCP连接，默认为0，表示关闭  </span><br><span class="line">net.ipv4.tcp_tw_reuse = 1  </span><br><span class="line">#表示开启TCP连接中TIME-WAIT sockets的快速回收，默认为0，表示关闭  </span><br><span class="line">net.ipv4.tcp_tw_recycle = 1  </span><br><span class="line">#可用端口范围  </span><br><span class="line">net.ipv4.ip_local_port_range = 10000    61000  </span><br><span class="line">  </span><br><span class="line">##减少超时前的探测次数  </span><br><span class="line">net.ipv4.tcp_keepalive_probes=5  </span><br><span class="line">##优化网络设备接收队列  </span><br><span class="line">net.core.netdev_max_backlog=3000</span><br></pre></td></tr></table></figure></p>
+<p>/sbin/sysctl -p 让参数生效</p>
+<h5 id="查找僵尸进程"><a href="#查找僵尸进程" class="headerlink" title="查找僵尸进程"></a>查找僵尸进程</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ps -A -ostat,ppid,pid,cmd | grep -e &apos;^[Zz]&apos;</span><br></pre></td></tr></table></figure>
+<h5 id="服务器禁止ping"><a href="#服务器禁止ping" class="headerlink" title="服务器禁止ping"></a>服务器禁止ping</h5><p>一般服务器不需要禁止ping,因为禁止之后我们无法通过ping命令来检测服务器是否丢包等。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#禁止</span><br><span class="line">$ echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all (禁止)</span><br><span class="line">#开启</span><br><span class="line">$ echo 0 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all</span><br><span class="line">#永久保存(/etc/rc.d/rc.local 里面内容开机后会自动执行)</span><br><span class="line">$ vi /etc/rc.d/rc.local</span><br><span class="line">$ echo 1 &gt;/proc/sys/net/ipv4/icmp_echo_ignore_all</span><br></pre></td></tr></table></figure></p>
+<h5 id="查看内存"><a href="#查看内存" class="headerlink" title="查看内存"></a>查看内存</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ free -m #MB为单位</span><br><span class="line">$ free -g #GB为单位</span><br></pre></td></tr></table></figure>
+<h5 id="查看内核版本"><a href="#查看内核版本" class="headerlink" title="查看内核版本"></a>查看内核版本</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ uname -a</span><br></pre></td></tr></table></figure>
+<p>or<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cat /proc/version</span><br></pre></td></tr></table></figure></p>
+<h5 id="查看发行版信息"><a href="#查看发行版信息" class="headerlink" title="查看发行版信息"></a>查看发行版信息</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cat /etc/issue</span><br></pre></td></tr></table></figure>
+<h5 id="查看cpu相关信息"><a href="#查看cpu相关信息" class="headerlink" title="查看cpu相关信息"></a>查看cpu相关信息</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cat /proc/cpuinfo</span><br></pre></td></tr></table></figure>
+<h5 id="查看磁盘空间"><a href="#查看磁盘空间" class="headerlink" title="查看磁盘空间"></a>查看磁盘空间</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ df</span><br><span class="line">$ df -h #我们更加可读的方式显示</span><br></pre></td></tr></table></figure>
+<h5 id="统计目录下文件行数"><a href="#统计目录下文件行数" class="headerlink" title="统计目录下文件行数"></a>统计目录下文件行数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find . -name &quot;*.erl&quot; | xargs cat | wc -l</span><br></pre></td></tr></table></figure>
+<p>or<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find . -name &quot;*.erl&quot; -exec wc -l &#123;&#125; \; | awk &apos;&#123;sum+=$1&#125;END&#123;print sum&#125;&apos;</span><br></pre></td></tr></table></figure></p>
+<h5 id="统计目录下文件行数，排除空行"><a href="#统计目录下文件行数，排除空行" class="headerlink" title="统计目录下文件行数，排除空行"></a>统计目录下文件行数，排除空行</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find . -name &quot;*.erl&quot; | xargs cat | grep -v ^$ | wc -l</span><br></pre></td></tr></table></figure>
+<h5 id="统计目录下文件数"><a href="#统计目录下文件数" class="headerlink" title="统计目录下文件数"></a>统计目录下文件数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find . -name &quot;*.erl&quot; | wc -l</span><br></pre></td></tr></table></figure>
+<h5 id="打包文件，排除指定目录-文件"><a href="#打包文件，排除指定目录-文件" class="headerlink" title="打包文件，排除指定目录,文件"></a>打包文件，排除指定目录,文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zcvf dnv_android.tar.gz ./server/ebin --exclude=./Dir</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/09/08/centos-cmd/" data-id="cjfe7q6sn0000b0vep2jb7pl2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+ 
+  
+    <article id="post-A" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/28/A/" class="article-date">
+  <time datetime="2017-08-28T15:02:45.000Z" itemprop="datePublished">2017-08-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/28/A/">A*</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>写了一篇关于jump point search，想着不写一篇A*，似乎不对。</p>
+<p>首先关于A*需要了解的几个概念：</p>
+<ul>
+<li>manhattan   <code>曼哈顿距离，两个点在水平方向和垂直方向的距离，并且把这两个距离相加，结果就是曼哈顿值。</code></li>
+<li>start   <code>起始点</code></li>
+<li>end    <code>结束点</code></li>
+<li>G        <code>&#39;起始点start&#39;到&#39;当前点&#39;产生的移动消耗</code> </li>
+<li>H        <code>它只是计算出&#39;当前点&#39;到&#39;结束点end&#39;的曼哈顿距离值，当然，你也可以用其他算距离的方法，例如euclidean(欧几里得距离)，octile距离，chebyshev(切比雪夫距离)。</code> </li>
+<li>F    <code>F = G + H</code></li>
+<li>openlist   <code>待检索的列表,此列表需要根据元素的F值自动排序</code></li>
+<li>closelist   <code>不需要检索的列表</code></li>
+<li>openedlist   <code>已检索的列表</code></li>
+</ul>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p> 说完了这些，我们还是往常一样，来个demo。</p>
+<p><img src="http://img.blog.csdn.net/20170828212451395?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMzgxODYxODE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="A*"></p>
+<p>图中的黄线上的绿色点为起点，红色点为终点。<br>搜索过程：</p>
+<ul>
+<li><p>1、   <code>把起始点s压入openlist,并将起始点放进openedlist。</code></p>
+</li>
+<li><p>2、   <code>从openlist中弹出一个点，以这个点为当前节点。并把这个点放进closelist。</code></p>
+</li>
+<li><p>3、   <code>获得当前点附近可以走的所有点。算出这些点各自的F值，并把这些点放进一个openlist中,同时也需要放进openedlist。</code> </p>
+</li>
+<li><p>4、   <code>取出openlist中f指最小的点作为当前点，并且放进closelist,此处是图中的1点，接着再获取1点周围的附近可以走的，未在关闭列表的点，判断此邻点是否是结束点，如果是，那么Ok, 我们可以根据这些节点的父节点倒推出路径了，就结束啦；如果不是，那么需要判断此邻点是否已经在openedlist，如果是，那么就需要判断此邻点当前路径的G值是否小于已经保存的G值，是的话那么就需要更新在openlist中此邻点的G值，并且把此邻点的父节点设置为1点(就是我们当前所在的点)，如果不在openedlist，那么就需要把其加入openedlist，并加入openlist。</code> </p>
+</li>
+<li><p>5、   <code>经过第4步的更新，我们就可以继续重复2-4。跟着找到2,3,4直到找到结束点为止。</code></p>
+</li>
+</ul>
+<p>好了，  A* 搜索的过程其实就这些，接下来，各位同学去找个实际的代码demo看下，加深下理解吧！go !</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/08/28/A/" data-id="cjfe7q6st0001b0vey5is4p11" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+ 
+  
+    <article id="post-jump-point-search-jps" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/28/jump-point-search-jps/" class="article-date">
+  <time datetime="2017-08-28T05:30:10.000Z" itemprop="datePublished">2017-08-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/28/jump-point-search-jps/">Jump Point Search(JPS)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>闲来无事，这里我写一篇关于jps寻路的文章，希望帮助大家理解jps，也是帮我自己留一个历史的脚印吧！</p>
+<p>首先需要了解的两个概念：</p>
+<ul>
+<li><strong>forced neighbors</strong></li>
+<li><strong>jump point</strong></li>
+</ul>
+<h3 id="forced-neighbors"><a href="#forced-neighbors" class="headerlink" title="forced neighbors"></a>forced neighbors</h3><p>forced neighbors中文意思是被迫邻居，有两种情况的被迫邻居。</p>
+<p>第一种</p>
+<blockquote>
+<p>对角线情况 - 为被迫邻居<br>x + +<br>x n +<br>p x -    </p>
+</blockquote>
+<p>第二种</p>
+<blockquote>
+<p>直线情况 - 为被迫邻居<br>x x -<br>p n +<br>x x -  </p>
+</blockquote>
+<h3 id="jump-point"><a href="#jump-point" class="headerlink" title="jump point"></a>jump point</h3><p>jump point中文意思是跳跃点，上面两种情况中的n就代表的是jump point ,我们从起始点寻到目标点，就是一个个jump point 这样寻找过去。</p>
+<p>成为jump point 有两个条件<br>:   1、这个点有被迫邻居<br>:   2、这个点是目标点</p>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>说完两个概念，我们直接上个demo讲解下jps寻路过程。(这个demo从s开始寻找到e)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+</tr>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left"><strong>+</strong></td>
+<td style="text-align:left">s</td>
+<td style="text-align:left"><strong>+</strong></td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">e</td>
+<td style="text-align:left">b</td>
+</tr>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left"><strong>+</strong></td>
+<td style="text-align:left"><strong>+</strong></td>
+<td style="text-align:left"><strong>j1</strong></td>
+<td style="text-align:left">j2</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">b</td>
+</tr>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">+</td>
+<td style="text-align:left">b</td>
+</tr>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+<td style="text-align:left">b</td>
+</tr>
+</tbody>
+</table>
+<p>图中的</p>
+<ul>
+<li>s(start)        <code>起始点</code> </li>
+<li>b(block)       <code>阻碍点</code> </li>
+<li>e(end)       <code>目标点</code></li>
+<li>j(jump point)<code>跳跃点</code></li>
+</ul>
+<p>在这个简单的例子中，要从s寻路到e，我们的jps寻路过程是这样。</p>
+<ul>
+<li><p>1、   <code>把起始点s压入openlist。</code></p>
+</li>
+<li><p>2、   <code>从openlist中弹出一个点，以这个点为当前节点。</code></p>
+</li>
+<li><p>3、   <code>获得当前点附近可以走的所有点,（获得的点）我用了加粗表示。</code> </p>
+</li>
+<li><p>4、   <code>先在这5个点中的3个正方向上的点上寻找jump point。很明显，这3个正方向上都找不到jump point。</code> </p>
+</li>
+<li><p>5、   <code>在5个点中的2个斜方向上的点上寻找jump point。这里需要注意的是，如果寻找方向上的点不是阻碍点也不是jump point的话，那么会&quot;继续搜索&quot;下去。但要注意的是，如果是协方向, 这个&quot;继续搜索&quot;会先对在正方向进行搜索，也就是上下左右，如果没有找到jump point再从协方向搜索。这里很明显，上下左都会遇到阻碍点，但我们向右走的时候会遇到jump point（j2）,而在这种情况下遇到的jump point ,那么我们当前的点( j1 )就会被当做jump point返回。</code></p>
+</li>
+<li><p>6、   <code>设置j1的父节点为s,然后把j1压入openlist。</code></p>
+</li>
+<li><p>7、   <code>我们继续重复上面的操2-6的操作，就可以找到下一个jump point(这里是j2,因为j2满足jump point的条件)。</code></p>
+</li>
+<li><p>8、   <code>我们在找到j2的情况下，再重复2-6，就会发现我们找到了我们的目标点。（如果未完成，继续重复第7步操作，直接找到e点）。</code></p>
+</li>
+<li>9、   <code>最后我们找到e点之后，可以根据每个对应节点的父节点，从后往前推导，整理出一条路径出来。任务完成。</code></li>
+</ul>
+<p>好了，  jump point search 搜索的过程其实就这些，接下来，各位同学去找个实际的代码demo看下，加深下理解吧！go !</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/08/28/jump-point-search-jps/" data-id="cjfe7q6t70008b0ve08ufxck2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+ 
+  
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/31/nifty/">nifty</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/31/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/22/erlang-cookie/">Erlang Cookie</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/24/pomelo/">pomelo</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/16/WebIssues/">WebIssues</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baocheng Huang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
