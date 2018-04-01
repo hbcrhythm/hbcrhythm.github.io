@@ -61,6 +61,49 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-svn-cmd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/12/svn-cmd/" class="article-date">
+  <time datetime="2017-09-12T13:01:13.000Z" itemprop="datePublished">2017-09-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/12/svn-cmd/">SVN Cmd</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>因为工作中经常需要用到SVN,虽然我知道git很好，但我们要考虑我们项目的大众啊，策划啊，美术啊，运营啊等等等等，所以我们选择了SVN，但因为一些命令，常会忘记，一到要用的时候，方恨未做记录。这里就记录些常用的，和一些遇到问题后用的。</p>
+<p>问题:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svn: E155017: Checksum mismatch while updating &apos;xxx&apos;: </span><br><span class="line">   expected:  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx </span><br><span class="line">     actual:  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><br></pre></td></tr></table></figure></p>
+<p>解决：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svn update --set-depth empty </span><br><span class="line">svn update --set-depth infinity</span><br></pre></td></tr></table></figure></p>
+<p>问题:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn: Previous operation has not finished; run &apos;cleanup&apos; if it was interrupted</span><br></pre></td></tr></table></figure></p>
+<p>解决:<br><a href="https://www.sqlite.org/2017/sqlite-tools-win32-x86-3200100.zip" target="_blank" rel="noopener">sqlite3.exe</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">先下载sqlite3.exe(链接在上方)</span><br><span class="line">将sqlite3复制到报错svn项目的.svn目录的同级目录</span><br><span class="line">sqlite3 .svn/wc.db &quot;select * from work_queue&quot; (查看队列未完成的任务)</span><br><span class="line">sqlite3 .svn/wc.db &quot;delete from work_queue&quot; (清空队列)</span><br><span class="line">svn cleanup</span><br></pre></td></tr></table></figure></p>
+<p>问题:<br><a href="http://semver.org/lang/zh-CN/" target="_blank" rel="noopener">语义化版本</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">打版本(这里涉及到语义化版本的问题,参考上方链接内容)</span><br></pre></td></tr></table></figure></p>
+<p>解决：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn copy svn://xxxx/server/trunk svn://xxxx/server/branch/0.1.0_beta -m &quot;辅助脚本签出新版本：0.1.0_beta&quot;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/09/12/svn-cmd/" data-id="cjfgx9ge9000dngvebo2i2rkb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+ 
+  
     <article id="post-centos-cmd" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/09/08/centos-cmd/" class="article-date">
@@ -110,7 +153,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/09/08/centos-cmd/" data-id="cjfgcd3f6000aegve2paz6kem" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2017/09/08/centos-cmd/" data-id="cjfgx9gdr0004ngve1zbsm0ak" class="article-share-link">Share</a>
       
       
     </footer>
@@ -175,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/08/28/A/" data-id="cjfgcd3fl000begvel5n0hja1" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2017/08/28/A/" data-id="cjfgx9gde0000ngve5y3leddr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -319,7 +362,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/08/28/jump-point-search-jps/" data-id="cjfgcd3f10008egvea2jbupt9" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2017/08/28/jump-point-search-jps/" data-id="cjfgx9gdz0008ngve3b0tvhy6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -364,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/08/27/hello-world/" data-id="cjfgcd3ex0006egvex7as0v39" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2017/08/27/hello-world/" data-id="cjfgx9ge4000angve20lk2wat" class="article-share-link">Share</a>
       
       
     </footer>
@@ -408,6 +451,10 @@
       <ul>
         
           <li>
+            <a href="/2018/04/01/kcp-erlang/">kcp_erlang</a>
+          </li>
+        
+          <li>
             <a href="/2018/04/01/kcp-Socket/">kcp-Socket</a>
           </li>
         
@@ -421,10 +468,6 @@
         
           <li>
             <a href="/2018/02/24/Read-Code/">速读代码</a>
-          </li>
-        
-          <li>
-            <a href="/2018/02/13/GAME-AI/">GAME-AI</a>
           </li>
         
       </ul>

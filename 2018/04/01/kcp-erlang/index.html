@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>kcp-Socket | New Power</title>
+  <title>kcp_erlang | New Power</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="整理了一份c#版本的Kcp， Demo可以直接在Unity里面使用，我在代码里添加了一些注释，让小伙伴们可以更快的理解Kcp和Demo。 Demo里面有些功能缺失了，例如发送的流模式和消息模式，现在只有消息模式，后面博主有时间的话会改过来。 博主昨天调试了Demo和一份Kcp-Erlang版本的进行通信，已经完成了，但两边细节都还需要优化，后续做完会放出来。">
+  <meta name="description" content="这是一个erlang版本的kcp实现，这里的定位，暂时只是作为demo，供大家学习与参考，如果要变成一个成熟的库还需要加不少东西。后面如果时间稍微充裕一些的话，会继续完善。 Demo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="kcp-Socket">
-<meta property="og:url" content="https://hbcrhythm.github.io/2018/04/01/kcp-Socket/index.html">
+<meta property="og:title" content="kcp_erlang">
+<meta property="og:url" content="https://hbcrhythm.github.io/2018/04/01/kcp-erlang/index.html">
 <meta property="og:site_name" content="New Power">
-<meta property="og:description" content="整理了一份c#版本的Kcp， Demo可以直接在Unity里面使用，我在代码里添加了一些注释，让小伙伴们可以更快的理解Kcp和Demo。 Demo里面有些功能缺失了，例如发送的流模式和消息模式，现在只有消息模式，后面博主有时间的话会改过来。 博主昨天调试了Demo和一份Kcp-Erlang版本的进行通信，已经完成了，但两边细节都还需要优化，后续做完会放出来。">
+<meta property="og:description" content="这是一个erlang版本的kcp实现，这里的定位，暂时只是作为demo，供大家学习与参考，如果要变成一个成熟的库还需要加不少东西。后面如果时间稍微充裕一些的话，会继续完善。 Demo">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-01T05:05:53.260Z">
+<meta property="og:updated_time" content="2018-04-01T14:49:33.089Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="kcp-Socket">
-<meta name="twitter:description" content="整理了一份c#版本的Kcp， Demo可以直接在Unity里面使用，我在代码里添加了一些注释，让小伙伴们可以更快的理解Kcp和Demo。 Demo里面有些功能缺失了，例如发送的流模式和消息模式，现在只有消息模式，后面博主有时间的话会改过来。 博主昨天调试了Demo和一份Kcp-Erlang版本的进行通信，已经完成了，但两边细节都还需要优化，后续做完会放出来。">
+<meta name="twitter:title" content="kcp_erlang">
+<meta name="twitter:description" content="这是一个erlang版本的kcp实现，这里的定位，暂时只是作为demo，供大家学习与参考，如果要变成一个成熟的库还需要加不少东西。后面如果时间稍微充裕一些的话，会继续完善。 Demo">
   
     <link rel="alternate" href="/atom.xml" title="New Power" type="application/atom+xml">
   
@@ -60,10 +60,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-kcp-Socket" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-kcp-erlang" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/04/01/kcp-Socket/" class="article-date">
-  <time datetime="2018-04-01T04:55:34.000Z" itemprop="datePublished">2018-04-01</time>
+    <a href="/2018/04/01/kcp-erlang/" class="article-date">
+  <time datetime="2018-04-01T14:44:43.000Z" itemprop="datePublished">2018-04-01</time>
 </a>
     
   </div>
@@ -74,7 +74,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      kcp-Socket
+      kcp_erlang
     </h1>
   
 
@@ -82,14 +82,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>整理了一份c#版本的Kcp， <a href="https://github.com/hbcrhythm/KCP-Socket" target="_blank" rel="noopener">Demo</a><br>可以直接在Unity里面使用，我在代码里添加了一些注释，让小伙伴们可以更快的理解Kcp和Demo。</p>
-<p>Demo里面有些功能缺失了，例如发送的流模式和消息模式，现在只有消息模式，后面博主有时间的话会改过来。</p>
-<p>博主昨天调试了Demo和一份Kcp-Erlang版本的进行通信，已经完成了，但两边细节都还需要优化，后续做完会放出来。 </p>
+        <p>这是一个erlang版本的kcp实现，这里的定位，暂时只是作为demo，供大家学习与参考，如果要变成一个成熟的库还需要加不少东西。后面如果时间稍微充裕一些的话，会继续完善。</p>
+<p><a href="https://github.com/hbcrhythm/kcp_erlang" target="_blank" rel="noopener">Demo</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2018/04/01/kcp-Socket/" data-id="cjfgx9gdy0007ngve7z0wd1r2" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/04/01/kcp-erlang/" data-id="cjfgx9ge20009ngvereyi5h14" class="article-share-link">Share</a>
       
       
     </footer>
@@ -98,19 +97,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/04/01/kcp-erlang/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          kcp_erlang
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/03/31/nifty/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/04/01/kcp-Socket/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">nifty</div>
+      <div class="article-nav-title">kcp-Socket</div>
     </a>
   
 </nav>
@@ -121,7 +111,7 @@
  
   <section id="comments">
 <!--高速版，加载速度快，使用前需测试页面的兼容性-->
-<div id="SOHUCS" sid="kcp-Socket"></div>
+<div id="SOHUCS" sid="kcp_erlang"></div>
 <script>
   (function(){
     var appid = 'cyt9AlIMf',
