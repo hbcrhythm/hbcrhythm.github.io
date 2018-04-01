@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>WebIssues | New Power</title>
+  <title>kcp-Socket | New Power</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。 系统环境：Centos6.5WebIssues版本：WebIssues1.1.5 服务端：  下载服务端：webissues-server-1.1.5.tar.bz2 创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。">
+  <meta name="description" content="整理了一份c#版本的Kcp， Demo可以直接在Unity里面使用，我在代码里添加了一些注释，让小伙伴们可以更快的理解Kcp和Demo。 Demo里面有些功能缺失了，例如发送的流模式和消息模式，现在只有消息模式，后面博主有时间的话会改过来。 博主昨天调试了Demo和一份Kcp-Erlang版本的进行通信，已经完成了，但两边细节都还需要优化，后续做完会放出来。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WebIssues">
-<meta property="og:url" content="https://hbcrhythm.github.io/2017/09/16/WebIssues/index.html">
+<meta property="og:title" content="kcp-Socket">
+<meta property="og:url" content="https://hbcrhythm.github.io/2018/04/01/kcp-Socket/index.html">
 <meta property="og:site_name" content="New Power">
-<meta property="og:description" content="工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。 系统环境：Centos6.5WebIssues版本：WebIssues1.1.5 服务端：  下载服务端：webissues-server-1.1.5.tar.bz2 创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。">
+<meta property="og:description" content="整理了一份c#版本的Kcp， Demo可以直接在Unity里面使用，我在代码里添加了一些注释，让小伙伴们可以更快的理解Kcp和Demo。 Demo里面有些功能缺失了，例如发送的流模式和消息模式，现在只有消息模式，后面博主有时间的话会改过来。 博主昨天调试了Demo和一份Kcp-Erlang版本的进行通信，已经完成了，但两边细节都还需要优化，后续做完会放出来。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-16T10:15:10.071Z">
+<meta property="og:updated_time" content="2018-04-01T05:05:53.260Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WebIssues">
-<meta name="twitter:description" content="工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。 系统环境：Centos6.5WebIssues版本：WebIssues1.1.5 服务端：  下载服务端：webissues-server-1.1.5.tar.bz2 创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。">
+<meta name="twitter:title" content="kcp-Socket">
+<meta name="twitter:description" content="整理了一份c#版本的Kcp， Demo可以直接在Unity里面使用，我在代码里添加了一些注释，让小伙伴们可以更快的理解Kcp和Demo。 Demo里面有些功能缺失了，例如发送的流模式和消息模式，现在只有消息模式，后面博主有时间的话会改过来。 博主昨天调试了Demo和一份Kcp-Erlang版本的进行通信，已经完成了，但两边细节都还需要优化，后续做完会放出来。">
   
     <link rel="alternate" href="/atom.xml" title="New Power" type="application/atom+xml">
   
@@ -60,10 +60,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-WebIssues" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-kcp-Socket" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/09/16/WebIssues/" class="article-date">
-  <time datetime="2017-09-16T09:32:53.000Z" itemprop="datePublished">2017-09-16</time>
+    <a href="/2018/04/01/kcp-Socket/" class="article-date">
+  <time datetime="2018-04-01T04:55:34.000Z" itemprop="datePublished">2018-04-01</time>
 </a>
     
   </div>
@@ -74,7 +74,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      WebIssues
+      kcp-Socket
     </h1>
   
 
@@ -82,30 +82,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。</p>
-<p>系统环境：Centos6.5<br>WebIssues版本：WebIssues1.1.5</p>
-<p>服务端：</p>
-<ul>
-<li>下载服务端：<a href="http://downloads.sourceforge.net/webissues/webissues-server-1.1.5.tar.bz2" target="_blank" rel="noopener">webissues-server-1.1.5.tar.bz2</a></li>
-<li>创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。</li>
-<li>配置webissues-server的nginx(官方主要支持IIS,Apache)，nginx config 里面的root目录指向webissues-server-1.1.5.tar.bz2解压后的目录。</li>
-<li>访问配置好的网站，根据上面的提示安装就可以(中间会有个data目录下面的sites没有权限访问，需要分配777)。</li>
-</ul>
-<p>客户端：</p>
-<ul>
-<li>下载客户端：<a href="http://downloads.sourceforge.net/webissues/webissues-1.1.5-win_x64.exe" target="_blank" rel="noopener">webissues-1.1.5-win_x64.exe</a></li>
-<li>直接用客户端就可以啦。</li>
-</ul>
-<p>官方文档：</p>
-<ul>
-<li><a href="http://wiki.mimec.org/wiki/Main_Page" target="_blank" rel="noopener">wiki</a></li>
-<li><a href="http://doc.mimec.org/webissues/server/" target="_blank" rel="noopener">Manual</a></li>
-</ul>
+        <p>整理了一份c#版本的Kcp， <a href="https://github.com/hbcrhythm/KCP-Socket" target="_blank" rel="noopener">Demo</a><br>可以直接在Unity里面使用，我在代码里添加了一些注释，让小伙伴们可以更快的理解Kcp和Demo。</p>
+<p>Demo里面有些功能缺失了，例如发送的流模式和消息模式，现在只有消息模式，后面博主有时间的话会改过来。</p>
+<p>博主昨天调试了Demo和一份Kcp-Erlang版本的进行通信，已经完成了，但两边细节都还需要优化，后续做完会放出来。 </p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/09/16/WebIssues/" data-id="cjfgcd3eu0005egvexve6ar5b" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/04/01/kcp-Socket/" data-id="cjfgcd3eb0004egved0iec3nq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -114,19 +98,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/09/24/pomelo/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          pomelo
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/12/svn-cmd/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/03/31/nifty/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">SVN Cmd</div>
+      <div class="article-nav-title">nifty</div>
     </a>
   
 </nav>
@@ -137,7 +112,7 @@
  
   <section id="comments">
 <!--高速版，加载速度快，使用前需测试页面的兼容性-->
-<div id="SOHUCS" sid="WebIssues"></div>
+<div id="SOHUCS" sid="kcp-Socket"></div>
 <script>
   (function(){
     var appid = 'cyt9AlIMf',
