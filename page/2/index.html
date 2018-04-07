@@ -61,6 +61,61 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-WebIssues" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/16/WebIssues/" class="article-date">
+  <time datetime="2017-09-16T09:32:53.000Z" itemprop="datePublished">2017-09-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/16/WebIssues/">WebIssues</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。</p>
+<p>系统环境：Centos6.5<br>WebIssues版本：WebIssues1.1.5</p>
+<p>服务端：</p>
+<ul>
+<li>下载服务端：<a href="http://downloads.sourceforge.net/webissues/webissues-server-1.1.5.tar.bz2" target="_blank" rel="noopener">webissues-server-1.1.5.tar.bz2</a></li>
+<li>创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。</li>
+<li>配置webissues-server的nginx(官方主要支持IIS,Apache)，nginx config 里面的root目录指向webissues-server-1.1.5.tar.bz2解压后的目录。</li>
+<li>访问配置好的网站，根据上面的提示安装就可以(中间会有个data目录下面的sites没有权限访问，需要分配777)。</li>
+</ul>
+<p>客户端：</p>
+<ul>
+<li>下载客户端：<a href="http://downloads.sourceforge.net/webissues/webissues-1.1.5-win_x64.exe" target="_blank" rel="noopener">webissues-1.1.5-win_x64.exe</a></li>
+<li>直接用客户端就可以啦。</li>
+</ul>
+<p>官方文档：</p>
+<ul>
+<li><a href="http://wiki.mimec.org/wiki/Main_Page" target="_blank" rel="noopener">wiki</a></li>
+<li><a href="http://doc.mimec.org/webissues/server/" target="_blank" rel="noopener">Manual</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2017/09/16/WebIssues/" data-id="cjfpiwktp0006q0vepgfebkz7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+ 
+  
     <article id="post-svn-cmd" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/09/12/svn-cmd/" class="article-date">
@@ -94,7 +149,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/09/12/svn-cmd/" data-id="cjfgx9ge9000dngvebo2i2rkb" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2017/09/12/svn-cmd/" data-id="cjfpiwku1000eq0vez96inmvq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -153,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/09/08/centos-cmd/" data-id="cjfgx9gdr0004ngve1zbsm0ak" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2017/09/08/centos-cmd/" data-id="cjfpiwkto0005q0veaz8oxdr0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -218,7 +273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/08/28/A/" data-id="cjfgx9gde0000ngve5y3leddr" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2017/08/28/A/" data-id="cjfpiwktb0001q0ve1oczk0bs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -362,7 +417,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/08/28/jump-point-search-jps/" data-id="cjfgx9gdz0008ngve3b0tvhy6" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2017/08/28/jump-point-search-jps/" data-id="cjfpiwktv000aq0vesrtj5avo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -407,7 +462,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/08/27/hello-world/" data-id="cjfgx9ge4000angve20lk2wat" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2017/08/27/hello-world/" data-id="cjfpiwktt0008q0ve6tsoevhy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -451,6 +506,10 @@
       <ul>
         
           <li>
+            <a href="/2018/04/07/Erasure-Code/">Reed-Solomon Erasure Code</a>
+          </li>
+        
+          <li>
             <a href="/2018/04/01/kcp-erlang/">kcp_erlang</a>
           </li>
         
@@ -464,10 +523,6 @@
         
           <li>
             <a href="/2018/02/27/unity-resolution/">UGUI Resoulution</a>
-          </li>
-        
-          <li>
-            <a href="/2018/02/24/Read-Code/">速读代码</a>
           </li>
         
       </ul>

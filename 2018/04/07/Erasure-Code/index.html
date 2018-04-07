@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>WebIssues | New Power</title>
+  <title>Reed-Solomon Erasure Code | New Power</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。 系统环境：Centos6.5WebIssues版本：WebIssues1.1.5 服务端：  下载服务端：webissues-server-1.1.5.tar.bz2 创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。">
+  <meta name="description" content="EC的定义：erasure code是一种技术，它可以将n份原始数据，增加m份数据(n &amp;gt; m)，并能通过n+m份中的任意n份数据，还原为原始数据。定义中包含了encode和decode两个过程，将原始的n份数据变为n+m份是encode，之后这n+m份数据可存放在不同的device上，如果有任意小于m份的数据失效，仍然能通过剩下的数据还原出来。 EC主要是通过纠删码算法将原始的数据进行编码得到冗">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WebIssues">
-<meta property="og:url" content="https://hbcrhythm.github.io/2017/09/16/WebIssues/index.html">
+<meta property="og:title" content="Reed-Solomon Erasure Code">
+<meta property="og:url" content="https://hbcrhythm.github.io/2018/04/07/Erasure-Code/index.html">
 <meta property="og:site_name" content="New Power">
-<meta property="og:description" content="工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。 系统环境：Centos6.5WebIssues版本：WebIssues1.1.5 服务端：  下载服务端：webissues-server-1.1.5.tar.bz2 创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。">
+<meta property="og:description" content="EC的定义：erasure code是一种技术，它可以将n份原始数据，增加m份数据(n &amp;gt; m)，并能通过n+m份中的任意n份数据，还原为原始数据。定义中包含了encode和decode两个过程，将原始的n份数据变为n+m份是encode，之后这n+m份数据可存放在不同的device上，如果有任意小于m份的数据失效，仍然能通过剩下的数据还原出来。 EC主要是通过纠删码算法将原始的数据进行编码得到冗">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-16T10:15:10.071Z">
+<meta property="og:updated_time" content="2018-04-07T15:17:34.684Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WebIssues">
-<meta name="twitter:description" content="工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。 系统环境：Centos6.5WebIssues版本：WebIssues1.1.5 服务端：  下载服务端：webissues-server-1.1.5.tar.bz2 创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。">
+<meta name="twitter:title" content="Reed-Solomon Erasure Code">
+<meta name="twitter:description" content="EC的定义：erasure code是一种技术，它可以将n份原始数据，增加m份数据(n &amp;gt; m)，并能通过n+m份中的任意n份数据，还原为原始数据。定义中包含了encode和decode两个过程，将原始的n份数据变为n+m份是encode，之后这n+m份数据可存放在不同的device上，如果有任意小于m份的数据失效，仍然能通过剩下的数据还原出来。 EC主要是通过纠删码算法将原始的数据进行编码得到冗">
   
     <link rel="alternate" href="/atom.xml" title="New Power" type="application/atom+xml">
   
@@ -60,10 +60,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-WebIssues" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Erasure-Code" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/09/16/WebIssues/" class="article-date">
-  <time datetime="2017-09-16T09:32:53.000Z" itemprop="datePublished">2017-09-16</time>
+    <a href="/2018/04/07/Erasure-Code/" class="article-date">
+  <time datetime="2018-04-07T10:40:50.000Z" itemprop="datePublished">2018-04-07</time>
 </a>
     
   </div>
@@ -74,7 +74,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      WebIssues
+      Reed-Solomon Erasure Code
     </h1>
   
 
@@ -82,30 +82,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。</p>
-<p>系统环境：Centos6.5<br>WebIssues版本：WebIssues1.1.5</p>
-<p>服务端：</p>
-<ul>
-<li>下载服务端：<a href="http://downloads.sourceforge.net/webissues/webissues-server-1.1.5.tar.bz2" target="_blank" rel="noopener">webissues-server-1.1.5.tar.bz2</a></li>
-<li>创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。</li>
-<li>配置webissues-server的nginx(官方主要支持IIS,Apache)，nginx config 里面的root目录指向webissues-server-1.1.5.tar.bz2解压后的目录。</li>
-<li>访问配置好的网站，根据上面的提示安装就可以(中间会有个data目录下面的sites没有权限访问，需要分配777)。</li>
-</ul>
-<p>客户端：</p>
-<ul>
-<li>下载客户端：<a href="http://downloads.sourceforge.net/webissues/webissues-1.1.5-win_x64.exe" target="_blank" rel="noopener">webissues-1.1.5-win_x64.exe</a></li>
-<li>直接用客户端就可以啦。</li>
-</ul>
-<p>官方文档：</p>
-<ul>
-<li><a href="http://wiki.mimec.org/wiki/Main_Page" target="_blank" rel="noopener">wiki</a></li>
-<li><a href="http://doc.mimec.org/webissues/server/" target="_blank" rel="noopener">Manual</a></li>
-</ul>
+        <p>EC的定义：erasure code是一种技术，它可以将n份原始数据，增加m份数据(n > m)，并能通过n+m份中的任意n份数据，还原为原始数据。定义中包含了encode和decode两个过程，将原始<br>的n份数据变为n+m份是encode，之后这n+m份数据可存放在不同的device上，如果有任意小于m份的数据失效，仍然能通过剩下的数据还原出来。</p>
+<p>EC主要是通过纠删码算法将原始的数据进行编码得到冗余，并将数据和冗余一并存储起来，以达到容错的目的。</p>
+<p>在数据存储领域， 一般有多副本，EC两种数据冗余技术，EC的话，可以很大程度上增加我们磁盘的利用率。<br>例如：</p>
+<pre><code>多副本
+    1个副本，假设我们存储2个备份副本,那么总共就3个副本了,10个副本数据就是30个副本要存储，这样我们同一个数据也只是能容忍丢掉3次。
+EC
+    1个副本，10个副本数据我们如果n=10, m=4, 只需要14个副本。这样我们可以容忍你丢掉任意3个副本。
+</code></pre><p>在直播，游戏领域，采用EC可以增加我们的抗丢包能力。</p>
+<p>EC原理不复杂，理解的话需要一些矩阵的知识，例如</p>
+<ol>
+<li>逆矩阵。</li>
+<li>单位矩阵。</li>
+<li>矩阵*逆矩阵= 单位矩阵。</li>
+<li>任何一个矩阵乘以单位矩阵都不变。</li>
+</ol>
+<p>详细原理和代码可以参考以下资料。</p>
+<p><a href="https://www.backblaze.com/blog/reed-solomon/" target="_blank" rel="noopener">Backblaze blog.</a><br><a href="https://en.wikipedia.org/wiki/Forward_error_correction" target="_blank" rel="noopener">Forward error correction</a><br><a href="https://github.com/klauspost/reedsolomon" target="_blank" rel="noopener">Reed-Solomon Erasure Coding in Go</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/09/16/WebIssues/" data-id="cjfpiwktp0006q0vepgfebkz7" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/04/07/Erasure-Code/" data-id="cjfpiwkth0002q0veu0btts9z" class="article-share-link">Share</a>
       
       
     </footer>
@@ -114,19 +112,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/09/24/pomelo/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          pomelo
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/12/svn-cmd/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/04/01/kcp-erlang/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">SVN Cmd</div>
+      <div class="article-nav-title">kcp_erlang</div>
     </a>
   
 </nav>
@@ -137,7 +126,7 @@
  
   <section id="comments">
 <!--高速版，加载速度快，使用前需测试页面的兼容性-->
-<div id="SOHUCS" sid="WebIssues"></div>
+<div id="SOHUCS" sid="Reed-Solomon Erasure Code"></div>
 <script>
   (function(){
     var appid = 'cyt9AlIMf',
