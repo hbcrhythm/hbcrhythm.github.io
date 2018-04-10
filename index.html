@@ -61,6 +61,44 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-protobuf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/10/protobuf/" class="article-date">
+  <time datetime="2018-04-10T15:56:51.000Z" itemprop="datePublished">2018-04-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/10/protobuf/">protobuf</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天有同事问我，使用protobuf 作为通信协议之后，是否还需要压缩呢。<br>其实我们知道，protobuf 为了节省字节数，本身已经做了一些处理，例如 采用 Varint 编码，ZigZag编码，Length-delimited编码等，并且对repeated的字段提供了packed的处理，其实已经算做了优化了，但是，如果你的数据量很大的话，其实是可以在继续使用压缩算法去压缩的，因为压缩的话，要在cpu消耗和流量之间做一个权衡，一般来说，小消息就没必要了，当消息达到一定程度（例如100byte以上），压缩还是有效果的， 一般压缩的话，zlib压缩效率是最高的，但是比较消耗cpu, 一般我是采用snappy，虽然压缩效率不高，但是它在cpu消耗和压缩效率之前的权衡做的比较合理。</p>
+<p>这几篇关于protobuf原理的文章将的挺好，有兴趣的可以读读。<br><a href="https://developers.google.com/protocol-buffers/docs/encoding#structure" target="_blank" rel="noopener">https://developers.google.com/protocol-buffers/docs/encoding#structure</a><br><a href="https://blog.csdn.net/zxhoo/article/details/53228303" target="_blank" rel="noopener">https://blog.csdn.net/zxhoo/article/details/53228303</a><br><a href="http://www.okyes.me/2016/09/10/protobuf-encode.html" target="_blank" rel="noopener">http://www.okyes.me/2016/09/10/protobuf-encode.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hbcrhythm.github.io/2018/04/10/protobuf/" data-id="cjftwq5jv0008k8ved4a83si2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+ 
+  
     <article id="post-Erasure-Code" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/04/07/Erasure-Code/" class="article-date">
@@ -86,11 +124,8 @@
         <p>EC的定义：erasure code是一种技术，它可以将n份原始数据，增加m份数据(n > m)，并能通过n+m份中的任意n份数据，还原为原始数据。定义中包含了encode和decode两个过程，将原始<br>的n份数据变为n+m份是encode，之后这n+m份数据可存放在不同的device上，如果有任意小于m份的数据失效，仍然能通过剩下的数据还原出来。</p>
 <p>EC主要是通过纠删码算法将原始的数据进行编码得到冗余，并将数据和冗余一并存储起来，以达到容错的目的。</p>
 <p>在数据存储领域， 一般有多副本，EC两种数据冗余技术，EC的话，可以很大程度上增加我们磁盘的利用率。<br>例如：</p>
-<pre><code>多副本
-    1个副本，假设我们存储2个备份副本,那么总共就3个副本了,10个副本数据就是30个副本要存储，这样我们同一个数据也只是能容忍丢掉3次。
-EC
-    1个副本，10个副本数据我们如果n=10, m=4, 只需要14个副本。这样我们可以容忍你丢掉任意3个副本。
-</code></pre><p>在直播，游戏领域，采用EC可以增加我们的抗丢包能力。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">多副本</span><br><span class="line">	1个副本，假设我们存储2个备份副本,那么总共就3个副本了,10个副本数据就是30个副本要存储，</span><br><span class="line">	这样我们同一个数据也只是能容忍丢掉3次。</span><br><span class="line">EC</span><br><span class="line">	1个副本，10个副本数据我们如果n=10, m=4, 只需要14个副本。这样我们可以容忍你丢掉任意3个副本。</span><br></pre></td></tr></table></figure>
+<p>在直播，游戏领域，采用EC可以增加我们的抗丢包能力。</p>
 <p>EC原理不复杂，理解的话需要一些矩阵的知识，例如</p>
 <ol>
 <li>逆矩阵。</li>
@@ -104,7 +139,7 @@ EC
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2018/04/07/Erasure-Code/" data-id="cjfpiwkth0002q0veu0btts9z" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/04/07/Erasure-Code/" data-id="cjftwq5jf0001k8ve5ho63kut" class="article-share-link">Share</a>
       
       
     </footer>
@@ -142,7 +177,7 @@ EC
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2018/04/01/kcp-erlang/" data-id="cjfpiwktu0009q0vec6gjuvn4" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/04/01/kcp-erlang/" data-id="cjftwq5jv000bk8veg9frr3lg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -181,7 +216,7 @@ EC
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2018/04/01/kcp-Socket/" data-id="cjfpiwkty000cq0ved776u69p" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/04/01/kcp-Socket/" data-id="cjftwq5jv0007k8vewij37buw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -261,7 +296,7 @@ make install
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2018/03/31/nifty/" data-id="cjfpiwku0000dq0veir6ks7ze" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/03/31/nifty/" data-id="cjftwq5kb000fk8vew18vt22x" class="article-share-link">Share</a>
       
       
     </footer>
@@ -306,7 +341,7 @@ make install
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2018/02/27/unity-resolution/" data-id="cjfpiwku2000fq0veclg4y04t" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/02/27/unity-resolution/" data-id="cjftwq5kb000gk8vev1vso99y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -347,7 +382,7 @@ make install
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2018/02/24/Read-Code/" data-id="cjfpiwkti0003q0veb97wzire" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/02/24/Read-Code/" data-id="cjftwq5jf0002k8ve4h841svt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -392,7 +427,7 @@ make install
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2018/02/13/GAME-AI/" data-id="cjfpiwktj0004q0vedufwwg0i" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/02/13/GAME-AI/" data-id="cjftwq5jv0003k8ve254jf9ph" class="article-share-link">Share</a>
       
       
     </footer>
@@ -434,7 +469,7 @@ make install
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2018/02/10/Abstract-Factory/" data-id="cjfpiwksu0000q0vedey87xtu" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/02/10/Abstract-Factory/" data-id="cjftwq5jv000ak8ve80c101p4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -515,56 +550,7 @@ erlang:set_cookie(&apos;a@127.0.0.1&apos;, cc)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/10/22/erlang-cookie/" data-id="cjfpiwktr0007q0ve1d62gqb3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
- 
-  
-    <article id="post-pomelo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/09/24/pomelo/" class="article-date">
-  <time datetime="2017-09-24T14:41:23.000Z" itemprop="datePublished">2017-09-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/24/pomelo/">pomelo</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>hello world。<br>今年为止，撸的框架记录下。</p>
-<ul>
-<li>node.js+vue webapp</li>
-<li>laravel+angular side</li>
-<li>egret h5 demo</li>
-<li>unity+tolua game framework</li>
-<li>asch</li>
-</ul>
-<p>前面3个在我的github上都有记录。<br>我撸框架在习惯Overleaf上画流程图，记录下框架的架构。我觉得画流程图是一个很好的方式，后面复习的话可以很清晰的回想起这个框架的架构。(非广告，嘻嘻)<br>现在, 决定开始撸pomelo 这套啦。虽然现在工作很忙，但看了这套架构的概述，还是挺好奇的。<br>这里立此贴为证，后面如果觉得有所感悟再写出来分享下啦。</p>
-<p>—————————-update—————————–<br>2017/10/5<br>pomelo-chat看的七七八八了，架构图的话，其实不用自己写，pomelo wiki有丰富的的架构图，流程简图。如果大家对big world的架构有兴趣，可以读读这款。长见识嘛！</p>
-<p>如果真用来做项目的话，其实不太建议，因为我本身是做erlang的，读了pomelo-chat 感觉pomelo是想在做一个node.js的erlang,那我为什么不直接用erlang来写呢。</p>
-<p>pomelo的master,monitor组件挺好的，对远程服务器提供控制和监控，看看什么时候可以为现在项目弄一套。</p>
-<p>end</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/09/24/pomelo/" data-id="cjfpiwktw000bq0vebzj5tvs6" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2017/10/22/erlang-cookie/" data-id="cjftwq5kb000ek8ve8qz1y6rd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -608,6 +594,10 @@ erlang:set_cookie(&apos;a@127.0.0.1&apos;, cc)
       <ul>
         
           <li>
+            <a href="/2018/04/10/protobuf/">protobuf</a>
+          </li>
+        
+          <li>
             <a href="/2018/04/07/Erasure-Code/">Reed-Solomon Erasure Code</a>
           </li>
         
@@ -621,10 +611,6 @@ erlang:set_cookie(&apos;a@127.0.0.1&apos;, cc)
         
           <li>
             <a href="/2018/03/31/nifty/">nifty</a>
-          </li>
-        
-          <li>
-            <a href="/2018/02/27/unity-resolution/">UGUI Resoulution</a>
           </li>
         
       </ul>

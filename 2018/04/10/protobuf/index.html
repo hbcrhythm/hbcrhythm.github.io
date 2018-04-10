@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>WebIssues | New Power</title>
+  <title>protobuf | New Power</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。 系统环境：Centos6.5WebIssues版本：WebIssues1.1.5 服务端：  下载服务端：webissues-server-1.1.5.tar.bz2 创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。">
+  <meta name="description" content="今天有同事问我，使用protobuf 作为通信协议之后，是否还需要压缩呢。其实我们知道，protobuf 为了节省字节数，本身已经做了一些处理，例如 采用 Varint 编码，ZigZag编码，Length-delimited编码等，并且对repeated的字段提供了packed的处理，其实已经算做了优化了，但是，如果你的数据量很大的话，其实是可以在继续使用压缩算法去压缩的，因为压缩的话，要在cp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WebIssues">
-<meta property="og:url" content="https://hbcrhythm.github.io/2017/09/16/WebIssues/index.html">
+<meta property="og:title" content="protobuf">
+<meta property="og:url" content="https://hbcrhythm.github.io/2018/04/10/protobuf/index.html">
 <meta property="og:site_name" content="New Power">
-<meta property="og:description" content="工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。 系统环境：Centos6.5WebIssues版本：WebIssues1.1.5 服务端：  下载服务端：webissues-server-1.1.5.tar.bz2 创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。">
+<meta property="og:description" content="今天有同事问我，使用protobuf 作为通信协议之后，是否还需要压缩呢。其实我们知道，protobuf 为了节省字节数，本身已经做了一些处理，例如 采用 Varint 编码，ZigZag编码，Length-delimited编码等，并且对repeated的字段提供了packed的处理，其实已经算做了优化了，但是，如果你的数据量很大的话，其实是可以在继续使用压缩算法去压缩的，因为压缩的话，要在cp">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-16T10:15:10.071Z">
+<meta property="og:updated_time" content="2018-04-10T16:58:00.707Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WebIssues">
-<meta name="twitter:description" content="工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。 系统环境：Centos6.5WebIssues版本：WebIssues1.1.5 服务端：  下载服务端：webissues-server-1.1.5.tar.bz2 创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。">
+<meta name="twitter:title" content="protobuf">
+<meta name="twitter:description" content="今天有同事问我，使用protobuf 作为通信协议之后，是否还需要压缩呢。其实我们知道，protobuf 为了节省字节数，本身已经做了一些处理，例如 采用 Varint 编码，ZigZag编码，Length-delimited编码等，并且对repeated的字段提供了packed的处理，其实已经算做了优化了，但是，如果你的数据量很大的话，其实是可以在继续使用压缩算法去压缩的，因为压缩的话，要在cp">
   
     <link rel="alternate" href="/atom.xml" title="New Power" type="application/atom+xml">
   
@@ -60,10 +60,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-WebIssues" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-protobuf" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/09/16/WebIssues/" class="article-date">
-  <time datetime="2017-09-16T09:32:53.000Z" itemprop="datePublished">2017-09-16</time>
+    <a href="/2018/04/10/protobuf/" class="article-date">
+  <time datetime="2018-04-10T15:56:51.000Z" itemprop="datePublished">2018-04-10</time>
 </a>
     
   </div>
@@ -74,7 +74,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      WebIssues
+      protobuf
     </h1>
   
 
@@ -82,30 +82,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>工作需要搭建一个项目管理软件，我选择了WebIssues, 这里记录下搭建的过程，比较简单。</p>
-<p>系统环境：Centos6.5<br>WebIssues版本：WebIssues1.1.5</p>
-<p>服务端：</p>
-<ul>
-<li>下载服务端：<a href="http://downloads.sourceforge.net/webissues/webissues-server-1.1.5.tar.bz2" target="_blank" rel="noopener">webissues-server-1.1.5.tar.bz2</a></li>
-<li>创建数据库(支持MySQL,PostgreSQL,SQL Server)，我用的是MySQL,仅需要在MySQL里面创建一个库就可以啦。</li>
-<li>配置webissues-server的nginx(官方主要支持IIS,Apache)，nginx config 里面的root目录指向webissues-server-1.1.5.tar.bz2解压后的目录。</li>
-<li>访问配置好的网站，根据上面的提示安装就可以(中间会有个data目录下面的sites没有权限访问，需要分配777)。</li>
-</ul>
-<p>客户端：</p>
-<ul>
-<li>下载客户端：<a href="http://downloads.sourceforge.net/webissues/webissues-1.1.5-win_x64.exe" target="_blank" rel="noopener">webissues-1.1.5-win_x64.exe</a></li>
-<li>直接用客户端就可以啦。</li>
-</ul>
-<p>官方文档：</p>
-<ul>
-<li><a href="http://wiki.mimec.org/wiki/Main_Page" target="_blank" rel="noopener">wiki</a></li>
-<li><a href="http://doc.mimec.org/webissues/server/" target="_blank" rel="noopener">Manual</a></li>
-</ul>
+        <p>今天有同事问我，使用protobuf 作为通信协议之后，是否还需要压缩呢。<br>其实我们知道，protobuf 为了节省字节数，本身已经做了一些处理，例如 采用 Varint 编码，ZigZag编码，Length-delimited编码等，并且对repeated的字段提供了packed的处理，其实已经算做了优化了，但是，如果你的数据量很大的话，其实是可以在继续使用压缩算法去压缩的，因为压缩的话，要在cpu消耗和流量之间做一个权衡，一般来说，小消息就没必要了，当消息达到一定程度（例如100byte以上），压缩还是有效果的， 一般压缩的话，zlib压缩效率是最高的，但是比较消耗cpu, 一般我是采用snappy，虽然压缩效率不高，但是它在cpu消耗和压缩效率之前的权衡做的比较合理。</p>
+<p>这几篇关于protobuf原理的文章将的挺好，有兴趣的可以读读。<br><a href="https://developers.google.com/protocol-buffers/docs/encoding#structure" target="_blank" rel="noopener">https://developers.google.com/protocol-buffers/docs/encoding#structure</a><br><a href="https://blog.csdn.net/zxhoo/article/details/53228303" target="_blank" rel="noopener">https://blog.csdn.net/zxhoo/article/details/53228303</a><br><a href="http://www.okyes.me/2016/09/10/protobuf-encode.html" target="_blank" rel="noopener">http://www.okyes.me/2016/09/10/protobuf-encode.html</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hbcrhythm.github.io/2017/09/16/WebIssues/" data-id="cjftwq5jv0005k8vek7c4hvap" class="article-share-link">Share</a>
+      <a data-url="https://hbcrhythm.github.io/2018/04/10/protobuf/" data-id="cjftwq5jv0008k8ved4a83si2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -114,19 +97,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/09/24/pomelo/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          pomelo
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/12/svn-cmd/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/04/07/Erasure-Code/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">SVN Cmd</div>
+      <div class="article-nav-title">Reed-Solomon Erasure Code</div>
     </a>
   
 </nav>
@@ -137,7 +111,7 @@
  
   <section id="comments">
 <!--高速版，加载速度快，使用前需测试页面的兼容性-->
-<div id="SOHUCS" sid="WebIssues"></div>
+<div id="SOHUCS" sid="protobuf"></div>
 <script>
   (function(){
     var appid = 'cyt9AlIMf',
